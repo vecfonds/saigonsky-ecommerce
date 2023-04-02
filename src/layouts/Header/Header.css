@@ -47,11 +47,14 @@
 
 .nav-link {
     color: #000;
+    /* color: var(--primary-colorBlue1); */
     opacity: 0.5;
 }
 
 .nav-link.activated {
     color: #000;
+    /* color: var(--primary-colorBlue1); */
+
     opacity: 1;
     font-weight: bold;
     /* background-color: #0d6efd; */
@@ -475,6 +478,8 @@
 
 .taikhoan a {
     color: #000;
+    /* color: var(--primary-colorBlue1); */
+
 }
 
 .btn-taikhoan:hover .taikhoan {
@@ -538,6 +543,7 @@
     /* .topnav {
         height: 50px;
     } */
+
 
     .main-nav {
         display: none;

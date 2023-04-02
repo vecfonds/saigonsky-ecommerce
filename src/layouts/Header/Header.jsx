@@ -66,7 +66,7 @@ function Header() {
 
     useEffect(() => {
         let topnav = document.querySelector('.topnav');
-        if (pathname !== '/') {
+        if (pathname !== '/' && pathname !== '/gioithieu') {
             topnav?.classList.add('noscroll');
             document.body.classList.add('bgwhite')
         }

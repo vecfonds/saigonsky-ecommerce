@@ -18,7 +18,7 @@ const ChildNews = () => {
         transition: {
             duration: 2,
             type: "spring",
-            delay: 1
+            delay: 0.5
         }
     }
 
@@ -102,7 +102,7 @@ const ChildNews = () => {
                                         image={slide.img}
                                         alt={`slide${index}`}
 
-                                        
+
                                     />
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="div">

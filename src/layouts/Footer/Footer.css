@@ -55,7 +55,9 @@ p {
 
 /*Mobile*/
 
-@media screen and (max-width: 46.1875em) {
+/* @media screen and (max-width: 46.1875em) { */
+@media screen and (max-width: 950px) {
+
     .footer-main {
         flex-direction: column;
         align-items: center;

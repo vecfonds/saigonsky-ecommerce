@@ -29,6 +29,8 @@
     margin-bottom: 0.5rem;
     font-weight: bold;
     color: var(--primary-colorBlue1);
+    /* color: var(--main-3); */
+
 }
 
 .service-content {

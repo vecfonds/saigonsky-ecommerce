@@ -40,11 +40,14 @@
     padding: 0.3rem 1.8rem;
     border-radius: 30px;
     background: var(--main-3);
+    /* background: var(--primary-colorBlue1); */
     display: inline-block;
     font-size: 1.1rem;
     margin-top: 1.5rem;
     transition: 0.2s;
     border: 1px solid var(--main-3);
+    /* border: 1px solid var(--primary-colorBlue1); */
+
 }
 
 .introducei .contenti {
@@ -73,6 +76,8 @@
     margin: 0 0 8px;
     font-weight: bold;
     color: var(--primary-colorBlue1);
+    /* color: var(--main-3); */
+
 }
 
 

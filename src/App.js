@@ -16,6 +16,9 @@ import { useLayoutEffect } from "react";
 import News from "./pages/News/News";
 import SubNews from "./pages/SubNews/SubNews";
 import Products from "./components/Products/Products";
+import Signup from "./components/Signup/Signup";
+import Login from "./components/Login/Login";
+import Contact from "./components/Contact/Contact";
 
 const Wrapper = ({ children }) => {
   const location = useLocation();
@@ -31,6 +34,8 @@ export default function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/dangky" element={<Signup />} />
+        <Route path="/dangnhap" element={<Login />} />
         <Route path="/sanpham" element={<Products />} />
 
         <Route path="/gioithieu" element={<Intro />} />
@@ -38,6 +43,7 @@ export default function App() {
           <Route path="subnews" element={<SubNews />} />
         </Route> */}
         <Route path="/tintuc" element={<SubNews />} />
+        <Route path="/lienhe" element={<Contact />} />
       </Routes>
       <ScrollToTop />
       <Footer />
