@@ -19,6 +19,8 @@ import Products from "./components/Products/Products";
 import Signup from "./components/Signup/Signup";
 import Login from "./components/Login/Login";
 import Contact from "./components/Contact/Contact";
+import { Provider } from "react-redux";
+import store from "./store/store";
 
 const Wrapper = ({ children }) => {
   const location = useLocation();
@@ -30,24 +32,26 @@ const Wrapper = ({ children }) => {
 
 export default function App() {
   return (
-    <Wrapper>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/dangky" element={<Signup />} />
-        <Route path="/dangnhap" element={<Login />} />
-        <Route path="/sanpham" element={<Products />} />
+    <Provider store={store}>
+      <Wrapper>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/dangky" element={<Signup />} />
+          <Route path="/dangnhap" element={<Login />} />
+          <Route path="/sanpham" element={<Products />} />
 
-        <Route path="/gioithieu" element={<Intro />} />
-        {/* <Route path="/tintuc" element={<News />}>
+          <Route path="/gioithieu" element={<Intro />} />
+          {/* <Route path="/tintuc" element={<News />}>
           <Route path="subnews" element={<SubNews />} />
         </Route> */}
-        <Route path="/tintuc" element={<SubNews />} />
-        <Route path="/lienhe" element={<Contact />} />
-      </Routes>
-      <ScrollToTop />
-      <Footer />
-    </Wrapper>
+          <Route path="/tintuc" element={<SubNews />} />
+          <Route path="/lienhe" element={<Contact />} />
+        </Routes>
+        <ScrollToTop />
+        <Footer />
+      </Wrapper>
+    </Provider>
   );
 }
 
