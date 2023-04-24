@@ -26,10 +26,13 @@ const Slider = ({ Lin }) => {
                             //     type: "spring",
                             //     delay: 1.5
                             // }}
+                            // initial={style = "ccc"}
+                            // className='init-btn'
 
-                            initial={{ top: 0, left: -500, position: 'relative' }}
+                            initial={{ top: 0, left: -270, position: 'relative', opacity: 0 }}
                             whileInView={{
                                 left: 0,
+                                opacity: 1,
                                 transition: {
                                     duration: 4,
                                     type: "spring",

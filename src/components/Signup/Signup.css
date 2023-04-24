@@ -149,7 +149,7 @@
     top: 0;
     left: 10px;
     /* background-color: var(--main-1); */
-    background: linear-gradient(to bottom, transparent, #EEE3DA, #EEE3DA, transparent);
+    background: linear-gradient(to bottom, transparent, transparent, transparent, transparent, #EEE3DA, transparent, transparent, transparent, transparent);
 
     padding: 1px 5px;
     font-size: 12px;
@@ -210,7 +210,7 @@
     top: 0;
     left: 10px;
     /* background-color: var(--main-1); */
-    background: linear-gradient(to bottom, transparent, #EAD0B7, #EAD0B7, transparent);
+    background: linear-gradient(to bottom, transparent, transparent, transparent, transparent, #EAD0B7, transparent, transparent, transparent, transparent);
 
     padding: 1px 5px;
     font-size: 12px;
@@ -385,7 +385,20 @@ option {
 } */
 
 
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--main-2) inset !important;
+}
+
+input:-webkit-autofill {
+    /* -webkit-text-fill-color: yellow !important; */
+}
 
 @media screen and (max-width: 950px) {
     .container {

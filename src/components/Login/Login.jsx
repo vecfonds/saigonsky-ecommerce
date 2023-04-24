@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 // import { useDispatch, useSelector } from 'react-redux'
-import "../Signup/Signup.css";
+import '../Signup/Signup.css'
 // import logo from './../assets/img/logo.png'
 // import { createNotification } from './../utils/Notification'
 // import { loginSuccess } from './../redux/userSlice'
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -16,92 +16,81 @@ import {
   loginUser,
   authenticationSelector,
   clearState,
-  authenticationSlice,
-} from "../../store/features/authenticationSlice";
+} from '../../store/features/authenticationSlice';
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+import axios from 'axios';
 
-const validationSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  password: z
-    .string()
-    .min(6, { message: "Password must be atleast 6 characters" }),
-});
+const validationSchema = z
+  .object({
+    phonenumber: z.string().min(10, { message: "Số điện thoại phải ít nhất 10 chữ số" }),
+
+    password: z
+      .string()
+      .min(6, { message: "Mật khẩu phải ít nhất 6 chữ số" }),
+  })
+  ;
+
+
+
+
+
 function Login() {
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+
   const [hiddenPwd, setHiddenPwd] = useState(false);
+
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    reset
   } = useForm({
     resolver: zodResolver(validationSchema),
   });
-  const { isFetching, isSuccess, isError, message } = useSelector(
-    authenticationSelector
-  );
-  const onSubmit = (data) => {
-    axios
-      .post(
-        "http://localhost/LTW_BE/Controllers/LoginController.php",
-        {
-          email: data["name"],
-          password: data["password"],
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        // console.log(res.data['IsLogin']);
-        if (res.data['IsLogin'] === "false" || res?.status === 401) {
-          // createNotification("error", "Sai thông tin tài khoản hoặc mật khẩu");
-          alert("Sai thông tin tài khoản hoặc mật khẩu");
-          return;
-        }
-        // localStorage.setItem("accessToken", JSON.stringify(data?.accessToken));
-        // localStorage.setItem(
-        //   "refreshToken",
-        //   JSON.stringify(data?.refreshToken)
-        // );
-        // dispatch(loginSuccess());
-        navigate("/");
-      })
-      .catch((err) => {
-        // createNotification('error', 'Đăng nhập thất bại')
-      });
 
-    return dispatch(loginUser(data));
-  };
-  useEffect(() => {
-    return () => {
-      dispatch(clearState());
-    };
-  }, []);
-  useEffect(() => {
-    if (isError) {
-      setTimeout(() => dispatch(clearState()), 5000);
-      reset();
-    }
-    if (isSuccess) {
-      dispatch(clearState());
-      navigate("/");
-      reset();
-    }
-  }, [isError, isSuccess]);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  // const handleLogin = (e) => {
-  //   e.preventDefault();
 
-  //   axios.post("http://localhost/LTW_BE/Controllers/LoginController.php",
+  // const { isFetching, isSuccess, isError, message } = useSelector(
+  //   authenticationSelector
+  // );
+
+
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(clearState());
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   if (isError) {
+  //     setTimeout(() => dispatch(clearState()), 5000);
+  //     reset();
+  //   }
+
+  //   if (isSuccess) {
+  //     dispatch(clearState());
+  //     navigate('/');
+  //     reset();
+  //   }
+  // }, [isError, isSuccess]);
+
+
+  // const onSubmit = (data) => {
+  //   // console.log(data);
+  //   dispatch(loginUser(data));
+  // }
+
+  // const onSubmit = (data) => {
+  //   // console.log(data)
+  //   axios
+  //     .post(
+  //       "http://localhost/LTW_BE-SignUp_API/Controllers/LoginController.php",
   //       {
-  //         email,
-  //         password,
+  //         phone_number: data.phonenumber,
+  //         password: data.password,
   //       },
   //       {
   //         headers: {
@@ -110,29 +99,61 @@ function Login() {
   //       }
   //     )
   //     .then((res) => {
-  //       // console.log(res);
+  //       // console.log("đúng");
+  //       if (res.data['IsLogin'] === "false" || res?.status === 401) {
+  //         // createNotification("error", "Sai thông tin tài khoản hoặc mật khẩu");
+  //         alert("Sai thông tin tài khoản hoặc mật khẩu");
+  //         return;
+  //       }
+  //       // localStorage.setItem("accessToken", JSON.stringify(data?.accessToken));
+  //       // localStorage.setItem(
+  //       //   "refreshToken",
+  //       //   JSON.stringify(data?.refreshToken)
+  //       // );
+  //       // dispatch(loginSuccess());
+  //       // navigate("/");
+  //     })
+  //     .catch((err) => {
+  //       // createNotification('error', 'Đăng nhập thất bại')
+  //       // console.log("sai");
+
   //     });
-  //   // .then((data) => {
-  //   //     if (data?.message === 'Fail') {
-  //   //         createNotification('error', 'Sai thông tin tài khoản hoặc mật khẩu')
-  //   //         return
-  //   //     }
-  //   //     // TODO: put to redux
-  //   //     console.log(data)
-  //   //     if (data?.status === 401) {
-  //   //         createNotification('error', 'Sai thông tin tài khoản hoặc mật khẩu')
-  //   //         return
-  //   //     }
-  //   //     createNotification('success', 'Đăng nhập thành công')
-  //   //     localStorage.setItem('accessToken', JSON.stringify(data?.accessToken))
-  //   //     localStorage.setItem('refreshToken', JSON.stringify(data?.refreshToken))
-  //   //     dispatch(loginSuccess())
-  //   //     navigate('/')
-  //   // })
-  //   // .catch((err) => {
-  //   //     createNotification('error', 'Đăng nhập thất bại')
-  //   // });
-  // };
+
+  //   // };
+
+  const [message, setMessage] = useState("");
+
+
+  const onSubmit = (data) => {
+    axios
+      .post(
+        "http://localhost/LTW_BE-SignUp_API/Controllers/LoginController.php",
+        {
+          phone_number: data.phonenumber,
+          password: data.password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log("ffsdff", res.data);
+        setMessage(res.data.message);
+        if (res.data.isSuccess === true) {
+          console.log("ok", res.data.isSuccess);
+          // dispatch(getUserInfo(phonenumber));
+          navigate("/sanpham");
+        }
+      })
+      .catch((err) => {
+        console.log("err", err)
+      });
+
+    // return dispatch(loginUser(data));
+  };
+
 
   return (
     <div className="login-container">
@@ -146,6 +167,7 @@ function Login() {
                             <img src={""} alt="" />
                         </div> */}
 
+
             <form className="form" onSubmit={handleSubmit(onSubmit)}>
               <div className="form-inner">
                 <div className="welcome">
@@ -155,48 +177,48 @@ function Login() {
                 <div className="form-groupS">
                   <div className="form-group">
                     <input
-                      autoComplete="off"
-                      type="text"
-                      id="name"
+                      // autoComplete="off"
+                      type="number"
+                      name="phonenumber"
                       placeholder=" "
-                      onChange={(e) => setEmail(e.target.value)}
-                      {...register("name")}
+                      {...register("phonenumber")}
                     />
-                    <label>UserName</label>
+                    <label>Số điện thoại</label>
                   </div>
-                  {errors.name && (
-                    <p className="textDanger">{errors.name?.message}</p>
+                  {errors.phonenumber && (
+                    <p className="textDanger">
+                      {errors.phonenumber?.message}
+                    </p>
                   )}
                 </div>
 
                 <div className="form-groupP">
+
+
                   <div className="form-group2">
                     <div className="pass-box">
-                      <input
-                        placeholder=" "
+                      <input placeholder=" "
                         type={hiddenPwd ? "text" : "password"}
                         id="password"
                         name="password"
-                        onChange={(e) => setPassword(e.target.value)}
+
                         {...register("password")}
                       />
-                      <label>Password</label>
-                      <div
-                        className="eye"
-                        onClick={() => setHiddenPwd(!hiddenPwd)}
-                      >
-                        <i
-                          className={
-                            hiddenPwd ? "fa fa-eye" : "fa fa-eye-slash"
-                          }
-                        ></i>
+                      <label>Mật khẩu</label>
+                      <div className="eye" onClick={() => setHiddenPwd(!hiddenPwd)}>
+                        <i className={hiddenPwd ? "fa fa-eye" : "fa fa-eye-slash"}></i>
                       </div>
                     </div>
+
                   </div>
                   {errors.password && (
-                    <p className="textDanger">{errors.password?.message}</p>
+                    <p className="textDanger">
+                      {errors.password?.message}
+                    </p>
                   )}
                 </div>
+
+
 
                 {/* <div className="form-group">
                                     <input
@@ -230,20 +252,27 @@ function Login() {
                                 </div> */}
               </div>
 
+              {message &&
+                <p className="textDanger" style={{ textAlign: "center" }}>
+                  {message}
+                </p>}
+
               <button className="submit-btn" type="submit">
                 Đăng nhập
               </button>
-              <div className="line"></div>
+              <div className="line">
+              </div>
 
               <div className="navigator">
                 Chưa có tài khoản? <Link to="/dangky">Đăng ký</Link>
               </div>
+
             </form>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Login;
+export default Login

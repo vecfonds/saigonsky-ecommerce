@@ -32,9 +32,83 @@ import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Link } from 'react-router-dom';
+import { ButtonBase } from '@mui/material';
 
 
 const options = ['Tùy chọn', 'Giá tăng dần', 'Giá giảm dần', 'Mới nhất', 'Bán chạy nhất'];
+
+
+
+
+
+
+
+
+
+const ImageButton = styled(ButtonBase)(({ theme }) => ({
+    position: 'relative',
+    height: 200,
+    [theme.breakpoints.down('sm')]: {
+        width: '100% !important', // Overrides inline-style
+        height: 100,
+    },
+    '&:hover, &.Mui-focusVisible': {
+        zIndex: 1,
+        '& .MuiImageBackdrop-root': {
+            opacity: 0.15,
+        },
+        '& .MuiImageMarked-root': {
+            opacity: 0,
+        },
+        '& .MuiTypography-root': {
+            border: '4px solid currentColor',
+        },
+    },
+}));
+
+const ImageSrc = styled('span')({
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center 40%',
+});
+
+const Image = styled('span')(({ theme }) => ({
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: theme.palette.common.white,
+}));
+
+const ImageBackdrop = styled('span')(({ theme }) => ({
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: theme.palette.common.black,
+    opacity: 0.4,
+    transition: theme.transitions.create('opacity'),
+}));
+
+const ImageMarked = styled('span')(({ theme }) => ({
+    height: 3,
+    width: 18,
+    backgroundColor: theme.palette.common.white,
+    position: 'absolute',
+    bottom: -2,
+    left: 'calc(50% - 9px)',
+    transition: theme.transitions.create('opacity'),
+}));
 
 
 const Products = () => {
@@ -330,33 +404,123 @@ const Products = () => {
                 </div>
             </div> */}
 
+
+
             <div className="product--details">
+                <div className="product-card">
+                    <Link to='/chitietsanpham' className="product-card-img">
+                        <img src="/assets/images/products/1.jpg" alt="item" />
+                        <div className="product-card-body">
+                            <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
+                        </div>
+                    </Link>
+                    <div className="product-card-detail">
+                        <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
+                        <p className="price">Giá: 600.000₫</p>
+                    </div>
+                </div>
+
+                <div className="product-card">
+                    <Link to='/chitietsanpham' className="product-card-img">
+                        <img src="/assets/images/products/2.jpg" alt="item" />
+                        <div className="product-card-body">
+                            <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
+                        </div>
+                    </Link>
+                    <div className="product-card-detail">
+                        <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
+                        <p className="price">Giá: 600.000₫</p>
+                    </div>
+                </div>
+
+                <div className="product-card">
+                    <Link to='/chitietsanpham' className="product-card-img">
+                        <img src="/assets/images/products/3.jpg" alt="item" />
+                        <div className="product-card-body">
+                            <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
+                        </div>
+                    </Link>
+                    <div className="product-card-detail">
+                        <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
+                        <p className="price">Giá: 600.000₫</p>
+                    </div>
+                </div>
+
+                <div className="product-card">
+                    <Link to='/chitietsanpham' className="product-card-img">
+                        <img src="/assets/images/products/4.jpg" alt="item" />
+                        <div className="product-card-body">
+                            <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
+                        </div>
+                    </Link>
+                    <div className="product-card-detail">
+                        <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
+                        <p className="price">Giá: 600.000₫</p>
+                    </div>
+                </div>
+
+                <div className="product-card">
+                    <Link to='/chitietsanpham' className="product-card-img">
+                        <img src="/assets/images/products/2.jpg" alt="item" />
+                        <div className="product-card-body">
+                            <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
+                        </div>
+                    </Link>
+                    <div className="product-card-detail">
+                        <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
+                        <p className="price">Giá: 600.000₫</p>
+                    </div>
+                </div>
+
+                <div className="product-card">
+                    <Link to='/chitietsanpham' className="product-card-img">
+                        <img src="/assets/images/products/2.jpg" alt="item" />
+                        <div className="product-card-body">
+                            <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
+                        </div>
+                    </Link>
+                    <div className="product-card-detail">
+                        <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
+                        <p className="price">Giá: 600.000₫</p>
+                    </div>
+                </div>
+
+
+
                 <div className="product-card">
                     <div className="product-card-img">
                         <img src="/assets/images/products/1.jpg" alt="item" />
                     </div>
                     <div className="product-card-detail">
-                        <p className="price">Giá: 500.000 VND</p>
-                        <div className="btn"><a href="#">Buy Now</a></div>
+                        <p className="price">Giá: 500.000₫</p>
+                        <div className="btn"><Link to='/chitietsanpham'>
+                            MUA NGAY
+                        </Link></div>
                     </div>
                 </div>
-                <div className="product-card">
-                    <div className="product-card-img">
-                        <img src="/assets/images/products/2.jpg" alt="item" />
-                    </div>
-                    <div className="product-card-detail">
-                        <p className="price">Giá: 600.000 VND</p>
-                        <div className="btn"><a href="#">Buy Now</a></div>
-                    </div>
 
+
+                <div className="product-card">
+                    <Link to='/chitietsanpham' className="product-card-img">
+                        <img src="/assets/images/products/2.jpg" alt="item" />
+                        <div className="product-card-body">
+                            <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
+                        </div>
+                    </Link>
+                    <div className="product-card-detail">
+                        <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
+                        <p className="price">Giá: 600.000₫</p>
+                    </div>
                 </div>
+
+
                 <div className="product-card">
                     <div className="product-card-img">
                         <img src="/assets/images/products/3.jpg" alt="item" />
                     </div>
                     <div className="product-card-detail">
                         <p className="price">Giá: 150.000 VND</p>
-                        <div className="btn"><a href="#">Buy Now</a></div>
+                        <div className="btn"><a href="#">MUA NGAY</a></div>
                     </div>
                 </div>
                 <div className="product-card">
@@ -365,7 +529,7 @@ const Products = () => {
                     </div>
                     <div className="product-card-detail">
                         <p className="price">Giá: 400.000 VND</p>
-                        <div className="btn"><a href="#">Buy Now</a></div>
+                        <div className="btn"><a href="#">MUA NGAY</a></div>
                     </div>
                 </div>
                 <div className="product-card">
@@ -374,7 +538,7 @@ const Products = () => {
                     </div>
                     <div className="product-card-detail">
                         <p className="price">Giá: 500.000 VND</p>
-                        <div className="btn"><a href="#">Buy Now</a></div>
+                        <div className="btn"><a href="#">MUA NGAY</a></div>
                     </div>
                 </div>
                 <div className="product-card">
@@ -383,7 +547,7 @@ const Products = () => {
                     </div>
                     <div className="product-card-detail">
                         <p className="price">Giá: 2.000.000 VND</p>
-                        <div className="btn"><a href="#">Buy Now</a></div>
+                        <div className="btn"><a href="#">MUA NGAY</a></div>
                     </div>
                 </div>
 

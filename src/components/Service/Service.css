@@ -76,7 +76,7 @@
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 950px) {
     .service {
         padding: 2rem 2.5rem;
         margin: 3rem 0;
@@ -91,7 +91,7 @@
     }
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 600px) {
     .service {
         padding: 2rem 2.5rem;
         margin: 3rem 0;

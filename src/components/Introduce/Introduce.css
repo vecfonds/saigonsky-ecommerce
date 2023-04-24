@@ -32,7 +32,8 @@
 
 }
 
-.button_about_us {
+.button_about_us,
+.thanhtoan {
     text-align: center;
     font-weight: 500;
     color: #fff;
@@ -48,6 +49,13 @@
     border: 1px solid var(--main-3);
     /* border: 1px solid var(--primary-colorBlue1); */
 
+}
+
+.thanhtoan {
+    padding: 10px 30px;
+    border-radius: 100px;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .introducei .contenti {
@@ -80,11 +88,13 @@
 
 }
 
-
+.thanhtoan:hover,
 .button_about_us:hover {
     color: var(--main-3);
     background: white;
 }
+
+
 
 @media screen and (min-width: 46.25em) and (max-width: 63.9375em) {}
 
@@ -119,7 +129,12 @@
     }
 }
 
-@media screen and (max-width: 992px) {}
+@media screen and (max-width: 950px) {
+    .contenti {
+        padding: 0 3rem;
+    }
+
+}
 
 @media screen and (max-width: 768px) {
     .introducei {
@@ -133,9 +148,9 @@
         width: 100%;
     }
 
-    .contenti {
+    /* .contenti {
         padding: 0 4rem;
-    }
+    } */
 
     .contenti {
         order: 2;
@@ -146,8 +161,14 @@
     }
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 600px) {
     .contenti {
-        padding: 0 2rem;
+        padding: 0 1.5rem;
     }
+}
+
+@media screen and (max-width: 380px) {
+    /* .contenti {
+        padding: 0 2rem;
+    } */
 }

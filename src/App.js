@@ -21,6 +21,9 @@ import Login from "./components/Login/Login";
 import Contact from "./components/Contact/Contact";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import ProductDetail from "./components/ProductDetail/ProductDetail";
+import ShoppingCart from "./components/ShoppingCart/ShoppingCart";
+import Payment from "./components/Payment/Payment";
 
 const Wrapper = ({ children }) => {
   const location = useLocation();
@@ -40,6 +43,9 @@ export default function App() {
           <Route path="/dangky" element={<Signup />} />
           <Route path="/dangnhap" element={<Login />} />
           <Route path="/sanpham" element={<Products />} />
+          <Route path="/chitietsanpham" element={<ProductDetail />} />
+          <Route path="/giohang" element={<ShoppingCart />} />
+          <Route path="/thanhtoan" element={<Payment />} />
 
           <Route path="/gioithieu" element={<Intro />} />
           {/* <Route path="/tintuc" element={<News />}>

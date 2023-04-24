@@ -1,23 +1,27 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 // import config from "../../../config";
+var axios = require("axios");
 
 export const signupUser = createAsyncThunk(
   "authentication/signupUser",
   async ({ fullname, email, password }, thunkAPI) => {
     try {
-      const response = await fetch('http://localhost/LTW_BE/Controllers/SignupController.php', {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fullname,
-          email,
-          password,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost/LTW_BE-SignUp_API/Controllers/SignupController.php",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            fullname,
+            email,
+            password,
+          }),
+        }
+      );
 
       let data = await response.json();
       if (response.status === 201) {
@@ -33,34 +37,27 @@ export const signupUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   "authentication/login",
-  async ({ email, password }, thunkAPI) => {
-    try {
-      const response = await fetch('http://localhost/LTW_BE/Controllers/LoginController.php', {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+  async ({ phonenumber, password }, thunkAPI) => {
+    console.log("data", phonenumber, password);
+    axios
+      .post(
+        "http://localhost/LTW_BE-SignUp_API/Controllers/LoginController.php",
+        {
+          phone_number: phonenumber,
+          password: password,
         },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log("đúng", res);
+      })
+      .catch((err) => {
+        console.log("sai", err);
       });
-      
-      let data = await response.json();
-
-      if (response.status === 200) {
-        // await AsyncStorage.setItem("accessToken", data.accessToken);
-
-        // await AsyncStorage.setItem("refreshToken", data.refreshToken);
-
-        return data;
-      } else {
-        return thunkAPI.rejectWithValue(data);
-      }
-    } catch (e) {
-      thunkAPI.rejectWithValue(e.response.data);
-    }
   }
 );
 

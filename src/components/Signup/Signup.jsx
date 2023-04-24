@@ -4,6 +4,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
+
 
 const validationSchema = z
     .object({
@@ -11,7 +14,8 @@ const validationSchema = z
         // email: z.string().min(1, { message: "Email is required" }).email({
         //     message: "Must be a valid email",
         // }),
-        phonenumber: z.string(),
+        // phonenumber: z.string(),
+        phonenumber: z.string().transform(data => Number(data)),
         // phonenumber: z.number().min(1, { message: "Name is required" }),
 
         address: z.string().min(1, { message: "Name is required" }),
@@ -24,27 +28,21 @@ const validationSchema = z
         terms: z.literal(true, {
             errorMap: () => ({ message: "You must accept Terms and Conditions" }),
         }),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
+    }).refine((data) => data.password === data.confirmPassword, {
         path: ["confirmPassword"],
         message: "Password don't match",
     });
-
+// .superRefine(({ confirmPassword, password }, ctx) => {
+//     if (confirmPassword !== password) {
+//       ctx.addIssue({
+//         code: "custom",
+//         message: "The passwords did not match"
+//       });
+//     }
+//   });
 
 const Signup = () => {
-    const options = [
-        { value: 'doctor', text: 'Doctor' },
-        { value: 'patient', text: 'Patient' }
-    ];
-
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [address, setAddress] = useState('');
-    const [birthday, setBirthday] = useState('');
-    const [type, setType] = useState(options[1].value);
-    const [pwd, setPwd] = useState('');
-    const [confirm, setConfirm] = useState('');
+    const navigate = useNavigate();
 
     const [hiddenPwd, setHiddenPwd] = useState(false);
     const [hiddenConfirmPwd, setHiddenConfirmPwd] = useState(false);
@@ -57,7 +55,50 @@ const Signup = () => {
         resolver: zodResolver(validationSchema),
     });
 
-    const onSubmit = (data) => console.log(data);
+    const [message, setMessage] = useState("");
+
+
+    const onSubmit = (data) => {
+        console.log(data);
+        // try {
+        //     const validatedForm = validationSchema.parse(data);
+        //     console.log(validatedForm);
+        // } catch (err) {
+        //     console.log(err);
+        // }
+
+        axios
+            .post(
+                "http://localhost/LTW_BE-SignUp_API/Controllers/SignupController.php",
+                {
+                    name: data.fullname,
+                    phone_number: data.phonenumber,
+                    address: data.address,
+                    password: data.password
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+            .then((res) => {
+                console.log("ffsdff", res.data);
+                setMessage(res.data.message);
+                // setMessage(res.data.message);
+                if (res.data.isSuccess === true) {
+                    console.log("ok", res.data.isSuccess);
+                    // dispatch(getUserInfo(phonenumber));
+                    navigate("/dangnhap");
+                }
+            })
+            .catch((err) => {
+                console.log("err", err);
+
+            });
+
+
+    }
 
     // const handleSubmit = () => {
 
@@ -156,8 +197,8 @@ const Signup = () => {
                                 <div className="form-groupS">
                                     <div className="form-group">
                                         <input
-                                            autoComplete="off"
-                                            type="tel"
+                                            // autoComplete="off"
+                                            type="number"
                                             name="phonenumber"
                                             placeholder=" "
                                             {...register("phonenumber")}
@@ -302,6 +343,13 @@ const Signup = () => {
                                 </div>
 
                             </div>
+
+                            {message &&
+                                <p className="textDanger" style={{ textAlign: "center" }}>
+                                    {message}
+                                </p>}
+
+
                             <button className="submit-btn" type="submit">Gửi</button>
 
                             <div className="line">

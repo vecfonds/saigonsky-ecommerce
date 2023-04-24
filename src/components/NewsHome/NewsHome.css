@@ -10,7 +10,7 @@
 
 @media screen and (max-width: 992px) {}
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
     .setting-mobile-card {
         max-width: 500px !important;
     }
@@ -26,4 +26,4 @@
         font-size: 1.2rem !important;
 
     }
-}
+} */
