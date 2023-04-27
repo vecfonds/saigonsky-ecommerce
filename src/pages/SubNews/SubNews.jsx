@@ -57,21 +57,21 @@ const ChildNews = () => {
                         viewport={{ once: true }}
 
                     >
-                        <div className="headeri">KHÁM PHÁ 4 HỌA TIẾT ĐANG THỐNG LĨNH HÈ 2022</div>
+                        <div className="headeri">KHÁM PHÁ 4 HỌA TIẾT ĐANG THỐNG LĨNH HÈ 2023</div>
                     </motion.div>
 
                     <hr />
 
-                    <div>13/06/2022</div>
+                    <div>13/04/2023</div>
                     <hr />
 
 
 
                     <div className="subnews_left-content">
-                        <p>Nếu thiếu vắng sự xuất hiện của những họa tiết sống động đóng vai trò như người khuấy động bầu không khí thì mọi cuộc vui thời trang cũng không thể trọn vẹn. Trong âm vang tưng bừng của mùa mốt mới và hy vọng mới, các nhà thiết kế của NEM đã quyết định sử dụng những hình họa bắt mắt cùng cách kết hợp độc đáo với màu sắc, chất liệu và thiết kế vào Bộ sưu tập Hè 2022. Từ họa tiết hoa lá nữ tính đến họa tiết nanh sói cá tính, tất cả đều được biến tấu thành vô số items sành điệu.
+                        <p>Nếu thiếu vắng sự xuất hiện của những họa tiết sống động đóng vai trò như người khuấy động bầu không khí thì mọi cuộc vui thời trang cũng không thể trọn vẹn. Trong âm vang tưng bừng của mùa mốt mới và hy vọng mới, các nhà thiết kế của NEM đã quyết định sử dụng những hình họa bắt mắt cùng cách kết hợp độc đáo với màu sắc, chất liệu và thiết kế vào Bộ sưu tập Hè 2023. Từ họa tiết hoa lá nữ tính đến họa tiết nanh sói cá tính, tất cả đều được biến tấu thành vô số items sành điệu.
 
                         </p>
-                        <p>Cùng NEM khám phá 4 họa tiết đang thống lĩnh làng mốt Hè 2022 nhé!</p>
+                        <p>Cùng NEM khám phá 4 họa tiết đang thống lĩnh làng mốt Hè 2023 nhé!</p>
 
                         <h2>1. Họa tiết hoa lá tươi mới</h2>
                         <p>Họa tiết hoa vốn đã chẳng còn xa lạ với mỗi mùa Xuân Hè, tuy nhiên "vườn hoa nhiệt đới" năm nay được đốt phá hơn khi kết hợp cùng những cá tính đối lập như kẻ sọc, caro,.. Và đặc biệt hơn là sự xuất hiện của những loài hoa trừu tượng. Họa tiết hoa mềm mại thường được gắn liền với những thiết kế có nét nữ tính tương đồng, nhưng khi đưa vào thiết kế mới mẻ hơn lại cho ra đời những items đầy cá tính. </p>
@@ -106,7 +106,7 @@ const ChildNews = () => {
                                     />
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="div">
-                                            KHÁM PHÁ 4 HỌA TIẾT ĐANG THỐNG LĨNH HÈ 2022
+                                            KHÁM PHÁ 4 HỌA TIẾT ĐANG THỐNG LĨNH HÈ 2023
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary">
                                             Lizards are a widespread group of squamate reptiles, with over 6,000

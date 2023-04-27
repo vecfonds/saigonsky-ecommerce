@@ -1,0 +1,21 @@
+#order-history {
+    margin: 7rem 10rem 4rem;
+    min-height: calc(100vh - 11rem);
+}
+
+@media screen and (max-width: 950px) {}
+
+@media screen and (max-width: 750px) {
+    #order-history {
+        margin: 6rem 10vw 4rem;
+        min-height: calc(100vh - 10rem);
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+    #order-history {
+        margin: 6rem 1.5rem 4rem;
+    }
+
+}

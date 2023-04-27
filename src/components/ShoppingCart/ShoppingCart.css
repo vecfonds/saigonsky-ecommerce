@@ -1,5 +1,7 @@
 #shopping-cart {
     margin: 7rem;
+    min-height: calc(100vh - 14rem);
+
 }
 
 .shopping-cart-main {

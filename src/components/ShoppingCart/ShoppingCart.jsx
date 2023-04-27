@@ -11,12 +11,34 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteShoppingCart, setQuantityProduct, shoppingCartSelector } from '../../store/features/shoppingCartSlice';
 
-
+const VND = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+});
 
 const ShoppingCart = () => {
     const [quantity, setQuantity] = useState(1);
+    const dispatch = useDispatch();
 
+    const {
+        dataShoppingCart
+    } = useSelector(shoppingCartSelector);
+
+    console.log("dataShoppingCart", dataShoppingCart);
+
+
+    const priceTotal = () => {
+        var sum = 0;
+
+        for (var i = 0; i < dataShoppingCart?.length; ++i) {
+            sum += dataShoppingCart[i]?.data.Price * dataShoppingCart[i]?.quantity;
+        }
+
+        return sum;
+    }
 
     function handleChange(e) {
         var value = e.target.value.replace(/[^0-9]/, '');
@@ -31,94 +53,138 @@ const ShoppingCart = () => {
     }
 
 
-    const products = [
-        createProduct(
-            <div className='product-cart-shopping'>
-                <div className="product-cart-shopping-img">
-                    <img src="/assets/images/products/1.jpg" alt="" />
-                </div>
-                <div className="product-cart-shopping-detail">
-                    <h2 className="title">ÁO KÝ GIẢ AK19642</h2>
-                    <div className='subtitle'>
-                        <p className="brand-name"><strong>Thương hiệu:</strong> NEM</p>
-                        <p className="product-code"><strong>Mã SP:  </strong> 196421312312160401</p>
 
-                        <p><strong>Phiên bản:</strong> Size 8 / Trắng</p>
-                    </div>
-                </div>
-            </div>,
-            <div className="price">1,199,000₫</div>,
-            <div className="size">
-                X
-            </div>
-            ,
-            <div className="color">
-                Vàng
-            </div>
-            ,
-            <div className="quantity-cart">
-                <div className="quantity-input">
+    // const products = dataShoppingCart.map(product => {
+    //     createProduct(
+    //         <div className='product-cart-shopping'>
+    //             <div className="product-cart-shopping-img">
+    //                 <img src="/assets/images/products/1.jpg" alt="" />
+    //             </div>
+    //             <div className="product-cart-shopping-detail">
+    //                 <h2 className="title">{product.data.Name}</h2>
+    //                 <div className='subtitle'>
+    //                     <p className="brand-name"><strong>Thương hiệu:</strong> {product.data.Album}</p>
+    //                     <p className="product-code"><strong>Mã SP:  </strong> {product.data.Id}</p>
 
-                    <ArrowBackIosIcon fontSize='small' onClick={() => setQuantity(curr => curr > 1 ? curr - 1 : 1)} sx={{ cursor: "pointer" }} />
+    //                     <p><strong>Phiên bản:</strong> {product.size} / {product.data.color}</p>
+    //                 </div>
+    //             </div>
+    //         </div>,
+    //         <div className="price">{VND.format(product.data.Price)}</div>,
+    //         <div className="size">
+    //             {product.size}
+    //         </div>
 
-                    <input className="quantity-input" type="text" value={quantity} onChange={(e) => handleChange(e)} />
+    //         ,
+    //         <div className="quantity-cart">
+    //             <div className="quantity-input">
 
-                    <ArrowForwardIosIcon fontSize='small' onClick={() => setQuantity(curr => curr + 1)} sx={{ cursor: "pointer" }} />
+    //                 <ArrowBackIosIcon fontSize='small' onClick={() => setQuantity(curr => curr > 1 ? curr - 1 : 1)} sx={{ cursor: "pointer" }} />
 
-                </div>
+    //                 <input className="quantity-input" type="text" value={quantity} onChange={(e) => handleChange(e)} />
+
+    //                 <ArrowForwardIosIcon fontSize='small' onClick={() => setQuantity(curr => curr + 1)} sx={{ cursor: "pointer" }} />
+
+    //             </div>
 
 
-            </div>
+    //         </div>
 
 
 
-            ,
-            <div className="price">1,199,000₫</div>
-        ),
+    //         ,
+    //         <div className="price">1,199,000₫</div>
+    //     )
+    // })
 
-        createProduct(
-            <div className='product-cart-shopping'>
-                <div className="product-cart-shopping-img">
-                    <img src="/assets/images/products/1.jpg" alt="" />
-                </div>
-                <div className="product-cart-shopping-detail">
-                    <h2 className="title">ÁO KÝ GIẢ AK19642</h2>
-                    <div className='subtitle'>
-                        <p className="brand-name"><strong>Thương hiệu:</strong> NEM</p>
-                        <p className="product-code"><strong>Mã SP:  </strong> 196421312312160401</p>
-                        <p className='version'><strong>Phiên bản:</strong> Size 8 / Trắng</p>
-                    </div>
-                </div>
-            </div>,
-            <div className="price">1,199,000₫</div>,
-            <div className="size">
-                X
-            </div>
-            ,
-            <div className="color">
-                Vàng
-            </div>
-            ,
-            <div className="quantity-cart">
-                <div className="quantity-input">
+    // const products = [
+    //     createProduct(
+    //         <div className='product-cart-shopping'>
+    //             <div className="product-cart-shopping-img">
+    //                 <img src="/assets/images/products/1.jpg" alt="" />
+    //             </div>
+    //             <div className="product-cart-shopping-detail">
+    //                 <h2 className="title">ÁO KÝ GIẢ AK19642</h2>
+    //                 <div className='subtitle'>
+    //                     <p className="brand-name"><strong>Thương hiệu:</strong> NEM</p>
+    //                     <p className="product-code"><strong>Mã SP:  </strong> 196421312312160401</p>
 
-                    <ArrowBackIosIcon fontSize='small' onClick={() => setQuantity(curr => curr > 1 ? curr - 1 : 1)} />
+    //                     <p><strong>Phiên bản:</strong> Size 8 / Trắng</p>
+    //                 </div>
+    //             </div>
+    //         </div>,
+    //         <div className="price">1,199,000₫</div>,
+    //         <div className="size">
+    //             X
+    //         </div>
+    //         ,
+    //         <div className="color">
+    //             Vàng
+    //         </div>
+    //         ,
+    //         <div className="quantity-cart">
+    //             <div className="quantity-input">
 
-                    <input className="quantity-input" type="text" value={quantity} onChange={(e) => handleChange(e)} />
+    //                 <ArrowBackIosIcon fontSize='small' onClick={() => setQuantity(curr => curr > 1 ? curr - 1 : 1)} sx={{ cursor: "pointer" }} />
 
-                    <ArrowForwardIosIcon fontSize='small' onClick={() => setQuantity(curr => curr + 1)} />
+    //                 <input className="quantity-input" type="text" value={quantity} onChange={(e) => handleChange(e)} />
 
-                </div>
+    //                 <ArrowForwardIosIcon fontSize='small' onClick={() => setQuantity(curr => curr + 1)} sx={{ cursor: "pointer" }} />
 
-
-            </div>
-
+    //             </div>
 
 
-            ,
-            <div className="price">1,199,000₫</div>
-        ),
-    ]
+    //         </div>
+
+
+
+    //         ,
+    //         <div className="price">1,199,000₫</div>
+    //     ),
+
+    //     createProduct(
+    //         <div className='product-cart-shopping'>
+    //             <div className="product-cart-shopping-img">
+    //                 <img src="/assets/images/products/1.jpg" alt="" />
+    //             </div>
+    //             <div className="product-cart-shopping-detail">
+    //                 <h2 className="title">ÁO KÝ GIẢ AK19642</h2>
+    //                 <div className='subtitle'>
+    //                     <p className="brand-name"><strong>Thương hiệu:</strong> NEM</p>
+    //                     <p className="product-code"><strong>Mã SP:  </strong> 196421312312160401</p>
+    //                     <p className='version'><strong>Phiên bản:</strong> Size 8 / Trắng</p>
+    //                 </div>
+    //             </div>
+    //         </div>,
+    //         <div className="price">1,199,000₫</div>,
+    //         <div className="size">
+    //             X
+    //         </div>
+    //         ,
+    //         <div className="color">
+    //             Vàng
+    //         </div>
+    //         ,
+    //         <div className="quantity-cart">
+    //             <div className="quantity-input">
+
+    //                 <ArrowBackIosIcon fontSize='small' onClick={() => setQuantity(curr => curr > 1 ? curr - 1 : 1)} />
+
+    //                 <input className="quantity-input" type="text" value={quantity} onChange={(e) => handleChange(e)} />
+
+    //                 <ArrowForwardIosIcon fontSize='small' onClick={() => setQuantity(curr => curr + 1)} />
+
+    //             </div>
+
+
+    //         </div>
+
+
+
+    //         ,
+    //         <div className="price">1,199,000₫</div>
+    //     ),
+    // ]
     return (
         <div id="shopping-cart">
             <div className="headeri">GIỎ HÀNG</div>
@@ -127,7 +193,7 @@ const ShoppingCart = () => {
 
                 <TableContainer component={Paper}
                     style={{
-                        padding: '2rem 1rem 1rem',
+                        // padding: '2rem 1rem 1rem',
                         zIndex: '10001',
                     }}
                 >
@@ -148,24 +214,48 @@ const ShoppingCart = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {products.map((row) => (
+                            {dataShoppingCart.map((product) => (
                                 <TableRow
-                                    key={row.product}
+                                    key={`${product.data.Id}-${product.color}-${product.size}`}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <TableCell component="th" scope="row" align="center" >
                                         {/* sx={{ display: "flex", justifyContent: 'center' }} */}
-                                        {row.product}
+
+                                        <div className='product-cart-shopping'>
+                                            <div className="product-cart-shopping-img">
+                                                <img src="/assets/images/products/1.jpg" alt="" />
+                                            </div>
+                                            <div className="product-cart-shopping-detail">
+                                                <h2 className="title">{product.data.Name}</h2>
+                                                <div className='subtitle'>
+                                                    <p className="brand-name"><strong>Thương hiệu:</strong> {product.data.Album}</p>
+                                                    <p className="product-code"><strong>Mã SP:  </strong> {product.data.Id}</p>
+
+                                                    <p><strong>Phiên bản:</strong> {product.size} / {product.color}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </TableCell>
-                                    <TableCell align="center">{row.price}</TableCell>
-                                    {/* <TableCell align="center">{row.size}</TableCell>
-
-                                    <TableCell align="center">{row.color}</TableCell> */}
-
-                                    <TableCell align="center">{row.quantity}</TableCell>
-                                    <TableCell align="center">{row.total_money}</TableCell>
+                                    <TableCell align="center">{VND.format(product.data.Price)}</TableCell>
                                     <TableCell align="center">
-                                        <DeleteOutlineIcon sx={{ cursor: "pointer" }} />
+                                        {/* {product.quantity} */}
+                                        <div className="quantity-cart">
+                                            <div className="quantity-input">
+
+                                                <ArrowBackIosIcon fontSize='small' onClick={() => { dispatch(setQuantityProduct({ data: product, quantity: product.quantity > 1 ? product.quantity - 1 : 1 })) }} sx={{ cursor: "pointer" }} />
+
+                                                <input className="quantity-input" type="text" value={product.quantity} readOnly />
+
+                                                <ArrowForwardIosIcon fontSize='small' onClick={() => { dispatch(setQuantityProduct({ data: product, quantity: product.quantity + 1 })) }} sx={{ cursor: "pointer" }} />
+
+                                            </div>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell align="center">{VND.format(product.data.Price * product.quantity)}</TableCell>
+                                    <TableCell align="center">
+                                        <DeleteOutlineIcon sx={{ cursor: "pointer" }} onClick={() => dispatch(deleteShoppingCart(product))} />
                                     </TableCell>
 
                                 </TableRow>
@@ -196,7 +286,7 @@ const ShoppingCart = () => {
             <div className="total-money">
                 <p>
                     <span className="total-money-title">Tổng tiền</span>
-                    <span className="price total-money-main">4,296,000₫</span>
+                    <span className="price total-money-main">{VND.format(priceTotal())}</span>
                 </p>
 
                 <div className="total-money-button">

@@ -13,6 +13,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './NewsHome.css'
+import { Link } from 'react-router-dom';
 
 const NewsHome = () => {
     const offscreen = { y: "1.5rem", opacity: 0 };
@@ -96,7 +97,7 @@ const NewsHome = () => {
                     dots: true
                 }
             },
-            
+
             {
                 breakpoint: 768,
                 settings: {
@@ -136,7 +137,7 @@ const NewsHome = () => {
                 <Slider {...settings}>
                     {slides.map((slide, index) => {
                         return (
-                            <div key={index}>
+                            <Link to='/tintuc' key={index}>
                                 {/* <ProductCard imgSrc={slide.img} /> */}
                                 {/* <img src={slide.img} alt={`slide${index}`} height={400} /> */}
                                 <Card sx={{ maxWidth: 430, margin: "0 auto" }} className="setting-mobile-card">
@@ -149,7 +150,7 @@ const NewsHome = () => {
                                     />
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="div">
-                                            KHÁM PHÁ 4 HỌA TIẾT ĐANG THỐNG LĨNH HÈ 2022
+                                            KHÁM PHÁ 4 HỌA TIẾT ĐANG THỐNG LĨNH HÈ 2023
                                         </Typography>
                                         {/* <Typography variant="body2" color="text.secondary">
                                         Lizards are a widespread group of squamate reptiles, with over 6,000
@@ -161,7 +162,7 @@ const NewsHome = () => {
                                     <Button size="small">Learn More</Button>
                                 </CardActions> */}
                                 </Card>
-                            </div>
+                            </Link>
                         );
                     })}
                 </Slider>

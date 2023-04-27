@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Products.css'
 import { motion } from "framer-motion"
 
@@ -32,86 +32,40 @@ import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Link } from 'react-router-dom';
-import { ButtonBase } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import { ButtonBase, Rating } from '@mui/material';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { addImageProduct, loadDataProducts, productsSelector } from '../../store/features/productsSlice';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { favoriteSelector } from '../../store/features/FavoriteSlice';
 
 
-const options = ['Tùy chọn', 'Giá tăng dần', 'Giá giảm dần', 'Mới nhất', 'Bán chạy nhất'];
-
-
-
-
-
-
-
-
-
-const ImageButton = styled(ButtonBase)(({ theme }) => ({
-    position: 'relative',
-    height: 200,
-    [theme.breakpoints.down('sm')]: {
-        width: '100% !important', // Overrides inline-style
-        height: 100,
-    },
-    '&:hover, &.Mui-focusVisible': {
-        zIndex: 1,
-        '& .MuiImageBackdrop-root': {
-            opacity: 0.15,
-        },
-        '& .MuiImageMarked-root': {
-            opacity: 0,
-        },
-        '& .MuiTypography-root': {
-            border: '4px solid currentColor',
-        },
-    },
-}));
-
-const ImageSrc = styled('span')({
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center 40%',
+const VND = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
 });
 
-const Image = styled('span')(({ theme }) => ({
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: theme.palette.common.white,
-}));
-
-const ImageBackdrop = styled('span')(({ theme }) => ({
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    backgroundColor: theme.palette.common.black,
-    opacity: 0.4,
-    transition: theme.transitions.create('opacity'),
-}));
-
-const ImageMarked = styled('span')(({ theme }) => ({
-    height: 3,
-    width: 18,
-    backgroundColor: theme.palette.common.white,
-    position: 'absolute',
-    bottom: -2,
-    left: 'calc(50% - 9px)',
-    transition: theme.transitions.create('opacity'),
-}));
+const StyledRating = styled(Rating)({
+    '& .MuiRating-iconFilled': {
+        color: '#ff6d75',
+    },
+    '& .MuiRating-iconHover': {
+        color: '#ff3d47',
+    },
+});
 
 
 const Products = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
+
+    const {
+        dataFavorite
+    } = useSelector(favoriteSelector);
+
+
     const offscreen = { y: "1.5rem", opacity: 0 };
     const onscreen = {
         y: 0,
@@ -123,144 +77,264 @@ const Products = () => {
         }
     }
 
+    const [value, setValue] = React.useState(2);
+
+    const [product, setProduct] = React.useState('');
+
+    const handleChangeProduct = (event) => {
+        setProduct(event.target.value);
+    };
+
+    const [price, setPrice] = React.useState('');
+
+    const handleChangePrice = (event) => {
+        setPrice(event.target.value);
+    };
+
+    useEffect(() => {
+        axios
+            .get(
+                "http://localhost/LTW_BE-dev/Controllers/ShowProduct.php",
+
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+            .then((res) => {
+                // res.data = JSON.parse(res.data);
+                console.log("product - res.data", res.data);
+
+                if (res.data.isSuccess === true) {
+                    // console.log("ok", res.data.isSuccess);
+                    // navigate("/dangnhap");
+                    console.log("res.data.", res.data.data);
+
+                    // const data = res.data.data;
+                    // data.forEach((product, index) => {
+                    //     console.log("product.Id", product.Id);
+
+                    //     axios
+                    //         .get(
+                    //             "http://localhost/LTW_BE-dev/Controllers/GetImages.php",
+                    //             // {
+                    //             //     params: {
+                    //             //         productID: product.Id,
+                    //             //     },
+                    //             //     responseType: "arraybuffer"
+
+                    //             // },
+
+                    //             {
+                    //                 headers: {
+                    //                     "Content-Type": "image/jpeg",
+                    //                 },
+                    //             }
+
+                    //         )
+                    //         .then((response) => {
+                    //             // Handle successful response
+                    //             const imageData = response.data;
+
+                    //             console.log(" typeofimageData", typeof (imageData))
+                    //             console.log(" typeofimageData", JSON.stringify(imageData) === '{}')
+
+                    //             console.log("imageData", imageData)
+
+                    //             const imageUrls = imageData.map(img => URL.createObjectURL(new Blob([img], { type: 'image/jpeg' })));
+
+                    //             console.log("imageUrls", imageUrls)
+
+                    //             // const blobs = [];
+                    //             // for (let i = 0; i < arrayBuffer.length; i++) {
+                    //             //     const blob = new Blob([arrayBuffer[i]], { type: 'image/jpeg' });
+                    //             //     console.log("blob", blob)
+
+                    //             //     blobs.push(blob);
+                    //             // }
+                    //             // const imageUrls = blobs.map(blob => URL.createObjectURL(blob));
+                    //             // console.log("imageUrls", imageUrls)
+
+                    //             // console.log("imageData", imageData)
+                    //             // const imageUrl = URL.createObjectURL(new Blob([imageData], { type: "image/jpeg" }));
+
+                    //             // const imageUrl = imageData.map((img) =>
+                    //             //     URL.createObjectURL(new Blob(img, { type: "image/jpeg" }))
+                    //             // );
+
+                    //             // Use the imageUrl to display the image on the client-side
+
+                    //             // console.log("imageUrl", imageUrl);
+                    //             // data.filter((item) => item.Id === product.Id)[0].images =
+                    //             //     imageUrl;
+                    //         })
+                    //         .catch((error) => {
+                    //             // Handle error
+                    //             console.log(error);
+                    //         });
+
+
+                    //     // axios
+                    //     //     .get(
+                    //     //         "http://localhost/LTW_BE-dev/Controllers/GetImages.php",
+                    //     //         {
+                    //     //             productID: product.Id,
+                    //     //         },
+                    //     //         {
+                    //     //             headers: {
+                    //     //                 "Content-Type": "image/jpeg",
+                    //     //             },
+                    //     //         }
+                    //     //     )
+                    //     //     .then((response) => {
+                    //     //         // Handle successful response
+                    //     //         const imageData = response.data;
+
+                    //     //         console.log("imageData", imageData)
+                    //     //         const imageUrl = imageData.map((img) =>
+                    //     //             URL.createObjectURL(new Blob(img, { type: "image/jpeg" }))
+                    //     //         );
+
+                    //     //         // Use the imageUrl to display the image on the client-side
+
+                    //     //         console.log("imageUrl", imageUrl);
+                    //     //         data.filter((item) => item.Id === product.Id)[0].images =
+                    //     //             imageUrl;
+                    //     //     })
+                    //     //     .catch((error) => {
+                    //     //         // Handle error
+                    //     //         console.log(error);
+                    //     //     });
+                    // });
+
+                    dispatch(loadDataProducts(res.data.data));
+
+                }
+            })
+            .catch((err) => {
+                console.log("err", err);
+            });
+
+    }, [])
+
+
+    const {
+        data
+    } = useSelector(productsSelector);
+
+    console.log("data", data)
+
     // useEffect(() => {
-    //     const productsz = document.querySelector('.productsz')
-    //     const filter = document.getElementById('filter')
-    //     const listItems = []
+    //     if (data) {
+    //         console.log("data addImageProduct", data)
 
-    //     getData()
-
-    //     filter.addEventListener('input', (e) => filterData(e.target.value))
-
-    //     async function getData() {
-    //         const res = await fetch('https://fakestoreapi.com/products')
-
-    //         const results = await res.json()
-
-    //         // Clear products
-    //         productsz.innerHTML = ''
-
-    //         results.forEach((product) => {
-    //             const div = document.createElement('div')
-    //             div.setAttribute('class', 'product')
-    //             listItems.push(div)
-
-    //             div.innerHTML = `
-    //                 <img src="${product.image}" alt="">
-    //                 <div class="product-detail">
-    //                     <h4>${product.title.slice(0, 30)}</h4>
-    //                     <p>$${product.price}</p>
-    //                 </div>
-    //             `
-
-    //             productsz.appendChild(div)
-    //         })
+    //         dispatch(addImageProduct());
     //     }
 
-    //     function filterData(search) {
-    //         listItems.forEach((item) => {
-    //             if (item.innerText.toLowerCase().includes(search.toLowerCase())) {
-    //                 item.classList.remove('hide')
-    //             } else {
-    //                 item.classList.add('hide')
-    //             }
-    //         })
-    //     }
-
-    //     return () => {
-    //         document.removeEventListener("input", filter);
-    //     }
-    // }, []);
+    // }, [])
 
 
-    const [open, setOpen] = React.useState(false);
-    const anchorRef = React.useRef(null);
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const [q, setQ] = useState("");
+    const [searchParam] = useState(["Name", "Type"]);
+    const [filterParam, setFilterParam] = useState("Tất cả");
+    const [sortParam, setSortParam] = useState("Tùy chọn");
 
-    const handleClick = () => {
-        console.info(`You clicked ${options[selectedIndex]}`);
-    };
+    const dataFilter = Object.values(data);
 
-    const handleMenuItemClick = (event, index) => {
-        setSelectedIndex(index);
-        setOpen(false);
-    };
+    function search(items) {
+        if (sortParam !== "Tùy chọn") {
+            function sortByIdThenName(a, b) {
+                if (sortParam === "Giá tăng dần") {
+                    const n = a.Price - b.Price;
+                    // sort by listId
+                    if (n !== 0) {
+                        return n;
+                    }
+                }
+                else {
+                    const n = b.Price - a.Price;
+                    // sort by listId
+                    if (n !== 0) {
+                        return n;
+                    }
+                }
+                // if listId is equal then sort by name
+                return a.Name.localeCompare(b.Name);
+            }
 
-    const handleToggle = () => {
-        setOpen((prevOpen) => !prevOpen);
-    };
-
-    const handleClose = (event) => {
-        if (anchorRef.current && anchorRef.current.contains(event.target)) {
-            return;
+            return items.sort(sortByIdThenName).filter((item) => {
+                if (item.Name === filterParam) {
+                    return searchParam.some((newItem) => {
+                        return (
+                            item[newItem]
+                                .toString()
+                                .toLowerCase()
+                                .indexOf(q.toLowerCase()) > -1
+                        );
+                    });
+                }
+                else if (item.Type === filterParam) {
+                    return searchParam.some((newItem) => {
+                        return (
+                            item[newItem]
+                                .toString()
+                                .toLowerCase()
+                                .indexOf(q.toLowerCase()) > -1
+                        );
+                    });
+                }
+                else if (filterParam === "Tất cả") {
+                    return searchParam.some((newItem) => {
+                        return (
+                            item[newItem]
+                                .toString()
+                                .toLowerCase()
+                                .indexOf(q.toLowerCase()) > -1
+                        );
+                    });
+                }
+            });
         }
 
-        setOpen(false);
-    };
+        return items.filter((item) => {
+            if (item.Name === filterParam) {
+                return searchParam.some((newItem) => {
+                    return (
+                        item[newItem]
+                            .toString()
+                            .toLowerCase()
+                            .indexOf(q.toLowerCase()) > -1
+                    );
+                });
+            }
+            else if (item.Type === filterParam) {
+                return searchParam.some((newItem) => {
+                    return (
+                        item[newItem]
+                            .toString()
+                            .toLowerCase()
+                            .indexOf(q.toLowerCase()) > -1
+                    );
+                });
+            }
+            else if (filterParam === "Tất cả") {
+                return searchParam.some((newItem) => {
+                    return (
+                        item[newItem]
+                            .toString()
+                            .toLowerCase()
+                            .indexOf(q.toLowerCase()) > -1
+                    );
+                });
+            }
+        });
+    }
 
-    const ColorButton = styled(Button)(({ theme }) => ({
-        color: "#000",
-        backgroundColor: "transparent",
-        boxShadow: "none"
-        ,
-        '&:hover': {
-            backgroundColor: "var(--main-2)",
-            // color: "#fff",
 
-        },
-        '&:not(:last-of-type)': {
-            borderColor: '#000',
 
-        }
-    }));
 
-    const [age, setAge] = React.useState('0');
 
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
-
-    const Search = styled('div')(({ theme }) => ({
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: alpha(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: alpha(theme.palette.common.white, 0.25),
-        },
-        marginLeft: 0,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(1),
-            width: 'auto',
-        },
-    }));
-
-    const SearchIconWrapper = styled('div')(({ theme }) => ({
-        padding: theme.spacing(0, 2),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    }));
-
-    const StyledInputBase = styled(InputBase)(({ theme }) => ({
-        color: 'inherit',
-        '& .MuiInputBase-input': {
-            padding: theme.spacing(1, 1, 1, 0),
-            // vertical padding + font size from searchIcon
-            paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-            transition: theme.transitions.create('width'),
-            width: '100%',
-            [theme.breakpoints.up('sm')]: {
-                width: '12ch',
-                '&:focus': {
-                    width: '20ch',
-                },
-            },
-        },
-    }));
 
     return (
         <div id="products">
@@ -289,7 +363,7 @@ const Products = () => {
                 viewport={{ once: true }}
 
             >
-                <div className='sub-tilte'>(119 sản phẩm)</div>
+                <div className='sub-tilte'>({search(dataFilter).length} sản phẩm)</div>
             </motion.div>
 
             <div className="filter_products">
@@ -300,260 +374,158 @@ const Products = () => {
                         <input
                             type="text"
                             id="filter"
-                            placeholder="Tìm kiếm sản phẩm"
+                            placeholder="Tìm kiếm"
+                            value={q}
+                            onChange={(e) => setQ(e.target.value)}
                         />
 
                     </div>
                 </div>
-                {/* <Search>
-                    <SearchIconWrapper>
-                        <SearchIcon />
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                        placeholder="Search…"
-                        inputProps={{ 'aria-label': 'search' }}
-                    />
-                </Search> */}
+
                 <div className="filter_products-right">
-                    <div className="form-filter">Bộ lọc <ExpandMoreIcon /></div>
+                    <div className="form-sort">
+                        <p>Sản phẩm:</p>
+                        <FormControl sx={{ m: 1, minWidth: 150, padding: 0, margin: 0 }}
+                            className='form-select'
+                        >
+                            <Select
+                                sx={{ height: 40, padding: 0, margin: 0 }}
+                                value={filterParam}
+                                // onChange={handleChangeProduct}
+                                onChange={(e) => {
+                                    setFilterParam(e.target.value);
+                                }}
+                                displayEmpty
+                                inputProps={{ 'aria-label': 'Without label' }}
+                            >
+                                <MenuItem value={"Tất cả"}>
+                                    <em>Tất cả</em>
+                                </MenuItem>
+                                <MenuItem value={"Áo sơ mi"}>Áo sơ mi</MenuItem>
+                                <MenuItem value={"Quần Dài"}>Quần Dài</MenuItem>
+                                <MenuItem value={"Chân váy"}>Chân váy</MenuItem>
+                                <MenuItem value={"Quần Short"}>Quần Short</MenuItem>
+                                <MenuItem value={"Set bộ"}>Set bộ</MenuItem>
+                                <MenuItem value={"Jumpsuit"}>Jumpsuit</MenuItem>
+                                <MenuItem value={"Đầm"}>Đầm</MenuItem>
+                                <MenuItem value={"Áo Dài"}>Áo Dài</MenuItem>
+                                <MenuItem value={"Quần Jeans"}>Quần Jeans</MenuItem>
+
+
+
+                                {/* <MenuItem value={3}>Mới nhất</MenuItem>
+                                <MenuItem value={4}>Bán chạy nhất</MenuItem> */}
+                            </Select>
+                        </FormControl>
+                    </div>
 
                     <div className="form-sort">
-                        Sắp xếp theo:
-
-                        <ButtonGroup variant="contained" ref={anchorRef} aria-label="split button"
+                        <p>Sắp xếp theo:</p>
+                        <FormControl sx={{ m: 1, minWidth: 150, padding: 0, margin: 0 }}
+                            className='form-select'
                         >
-                            <ColorButton onClick={handleClick}
-
-
-                            >{options[selectedIndex]}</ColorButton>
-                            <ColorButton
-                                size="small"
-                                aria-controls={open ? 'split-button-menu' : undefined}
-                                aria-expanded={open ? 'true' : undefined}
-                                aria-label="select merge strategy"
-                                aria-haspopup="menu"
-                                onClick={handleToggle}
+                            <Select
+                                sx={{ height: 40 }}
+                                // value={price}
+                                // onChange={handleChangePrice}
+                                value={sortParam}
+                                onChange={(e) => {
+                                    setSortParam(e.target.value);
+                                }}
+                                displayEmpty
+                                inputProps={{ 'aria-label': 'Without label' }}
                             >
-                                <ArrowDropDownIcon />
-                            </ColorButton>
-                        </ButtonGroup>
-                        <Popper
-                            sx={{
-                                zIndex: 1,
-                            }}
-                            open={open}
-                            anchorEl={anchorRef.current}
-                            role={undefined}
-                            transition
-                            disablePortal
-                        >
-                            {({ TransitionProps, placement }) => (
-                                <Grow
-                                    {...TransitionProps}
-                                    style={{
-                                        transformOrigin:
-                                            placement === 'bottom' ? 'center top' : 'center bottom',
-                                    }}
-                                >
-                                    <Paper>
-                                        <ClickAwayListener onClickAway={handleClose}>
-                                            <MenuList id="split-button-menu" autoFocusItem>
-                                                {options.map((option, index) => (
-                                                    <MenuItem
-                                                        key={option}
-                                                        // disabled={index === 2}
-                                                        selected={index === selectedIndex}
-                                                        onClick={(event) => handleMenuItemClick(event, index)}
-                                                    >
-                                                        {option}
-                                                    </MenuItem>
-                                                ))}
-                                            </MenuList>
-                                        </ClickAwayListener>
-                                    </Paper>
-                                </Grow>
-                            )}
-                        </Popper>
-
+                                <MenuItem value={"Tùy chọn"}>
+                                    <em>Tùy chọn</em>
+                                </MenuItem>
+                                <MenuItem value={"Giá tăng dần"}>Giá tăng dần</MenuItem>
+                                <MenuItem value={"Giá giảm dần"}>Giá giảm dần</MenuItem>
+                                {/* <MenuItem value={"Mới nhất"}>Mới nhất</MenuItem>
+                                <MenuItem value={"Bán chạy nhất"}>Bán chạy nhất</MenuItem> */}
+                            </Select>
+                        </FormControl>
 
                     </div>
                 </div>
-                {/* <Stack spacing={2} sx={{ width: 300 }}>
-                    <Autocomplete
-                        freeSolo
-                        id="free-solo-2-demo"
-                        disableClearable
-                        options={top100Films.map((option) => option.title)}
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                label="Search input"
-                                InputProps={{
-                                    ...params.InputProps,
-                                    type: 'search',
-                                }}
-                            />
-                        )}
-                    />
-                </Stack> */}
+
             </div>
-
-            {/* <div className="productsz">
-                <div>
-                    <h3>Loading...</h3>
-                </div>
-            </div> */}
-
 
 
             <div className="product--details">
-                <div className="product-card">
-                    <Link to='/chitietsanpham' className="product-card-img">
-                        <img src="/assets/images/products/1.jpg" alt="item" />
-                        <div className="product-card-body">
-                            <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
+
+
+                {search(dataFilter).map(product =>
+                    <div className="product-card" key={product.Id}>
+                        <Link to={`${product.Id}`} state={{ id: product.Id }} className="product-card-img">
+
+                            <img src="/assets/images/products/1.jpg" alt="item" />
+
+                            <StyledRating
+                                // name="customized-color"
+                                defaultValue={0}
+                                value={dataFavorite.filter(item => item === product.Id).length}
+                                readOnly
+                                getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
+                                precision={1}
+                                icon={<FavoriteIcon fontSize="inherit" />}
+                                emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+                                sx={{ position: "absolute", right: "10px", top: "10px", fontSize: "large" }}
+                                max={1}
+                                size="inherit"
+                                name="size-large"
+                            />
+
+                            {/* <Rating
+                                // name="size-large"
+                                value={value}
+                                onChange={(event, newValue) => {
+                                    setValue(newValue);
+                                }}
+                                precision={0.1}
+                                readOnly
+                                sx={{ position: "absolute", right: "5px", top: "5px" }}
+                            /> */}
+                            <div className="product-card-body">
+                                <Link to={`${product.Id}`} state={{ id: product.Id }} className="btn">MUA NGAY</Link>
+                            </div>
+                        </Link>
+
+                        <div className="product-card-detail">
+                            <Link to={`${product.Id}`} state={{ id: product.Id }} className="name">{product.Name}</Link>
+                            <p className="price">Giá: {VND.format(product?.Price)}</p>
                         </div>
-                    </Link>
-                    <div className="product-card-detail">
-                        <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
-                        <p className="price">Giá: 600.000₫</p>
-                    </div>
-                </div>
+                    </div>)}
 
-                <div className="product-card">
-                    <Link to='/chitietsanpham' className="product-card-img">
-                        <img src="/assets/images/products/2.jpg" alt="item" />
-                        <div className="product-card-body">
-                            <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
+
+
+
+                {/* {data.map(product =>
+                    <div className="product-card">
+                        <Link to='/chitietsanpham' className="product-card-img">
+                            <img src="/assets/images/products/1.jpg" alt="item" />
+                            <Rating
+                                // name="size-large"
+                                value={value}
+                                onChange={(event, newValue) => {
+                                    setValue(newValue);
+                                }}
+                                precision={0.1}
+                                readOnly
+                                sx={{ position: "absolute", right: "5px", top: "5px" }}
+                            />
+                            <div className="product-card-body">
+                                <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
+                            </div>
+                        </Link>
+                        <div className="product-card-detail">
+                            <Link to='/chitietsanpham' className="name">{product.Name}</Link>
+                            <p className="price">Giá: {product.Price}₫</p>
                         </div>
-                    </Link>
-                    <div className="product-card-detail">
-                        <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
-                        <p className="price">Giá: 600.000₫</p>
-                    </div>
-                </div>
-
-                <div className="product-card">
-                    <Link to='/chitietsanpham' className="product-card-img">
-                        <img src="/assets/images/products/3.jpg" alt="item" />
-                        <div className="product-card-body">
-                            <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
-                        </div>
-                    </Link>
-                    <div className="product-card-detail">
-                        <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
-                        <p className="price">Giá: 600.000₫</p>
-                    </div>
-                </div>
-
-                <div className="product-card">
-                    <Link to='/chitietsanpham' className="product-card-img">
-                        <img src="/assets/images/products/4.jpg" alt="item" />
-                        <div className="product-card-body">
-                            <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
-                        </div>
-                    </Link>
-                    <div className="product-card-detail">
-                        <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
-                        <p className="price">Giá: 600.000₫</p>
-                    </div>
-                </div>
-
-                <div className="product-card">
-                    <Link to='/chitietsanpham' className="product-card-img">
-                        <img src="/assets/images/products/2.jpg" alt="item" />
-                        <div className="product-card-body">
-                            <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
-                        </div>
-                    </Link>
-                    <div className="product-card-detail">
-                        <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
-                        <p className="price">Giá: 600.000₫</p>
-                    </div>
-                </div>
-
-                <div className="product-card">
-                    <Link to='/chitietsanpham' className="product-card-img">
-                        <img src="/assets/images/products/2.jpg" alt="item" />
-                        <div className="product-card-body">
-                            <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
-                        </div>
-                    </Link>
-                    <div className="product-card-detail">
-                        <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
-                        <p className="price">Giá: 600.000₫</p>
-                    </div>
-                </div>
+                    </div>)} */}
 
 
 
-                <div className="product-card">
-                    <div className="product-card-img">
-                        <img src="/assets/images/products/1.jpg" alt="item" />
-                    </div>
-                    <div className="product-card-detail">
-                        <p className="price">Giá: 500.000₫</p>
-                        <div className="btn"><Link to='/chitietsanpham'>
-                            MUA NGAY
-                        </Link></div>
-                    </div>
-                </div>
-
-
-                <div className="product-card">
-                    <Link to='/chitietsanpham' className="product-card-img">
-                        <img src="/assets/images/products/2.jpg" alt="item" />
-                        <div className="product-card-body">
-                            <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
-                        </div>
-                    </Link>
-                    <div className="product-card-detail">
-                        <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
-                        <p className="price">Giá: 600.000₫</p>
-                    </div>
-                </div>
-
-
-                <div className="product-card">
-                    <div className="product-card-img">
-                        <img src="/assets/images/products/3.jpg" alt="item" />
-                    </div>
-                    <div className="product-card-detail">
-                        <p className="price">Giá: 150.000 VND</p>
-                        <div className="btn"><a href="#">MUA NGAY</a></div>
-                    </div>
-                </div>
-                <div className="product-card">
-                    <div className="product-card-img">
-                        <img src="/assets/images/products/1.jpg" alt="item" />
-                    </div>
-                    <div className="product-card-detail">
-                        <p className="price">Giá: 400.000 VND</p>
-                        <div className="btn"><a href="#">MUA NGAY</a></div>
-                    </div>
-                </div>
-                <div className="product-card">
-                    <div className="product-card-img">
-                        <img src="/assets/images/products/2.jpg" alt="item" />
-                    </div>
-                    <div className="product-card-detail">
-                        <p className="price">Giá: 500.000 VND</p>
-                        <div className="btn"><a href="#">MUA NGAY</a></div>
-                    </div>
-                </div>
-                <div className="product-card">
-                    <div className="product-card-img">
-                        <img src="/assets/images/products/3.jpg" alt="item" />
-                    </div>
-                    <div className="product-card-detail">
-                        <p className="price">Giá: 2.000.000 VND</p>
-                        <div className="btn"><a href="#">MUA NGAY</a></div>
-                    </div>
-                </div>
-
-
-            </div>
-
+            </div >
         </div>
 
     )
@@ -562,130 +534,3 @@ const Products = () => {
 export default Products
 
 
-
-const top100Films = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
-    { title: 'The Dark Knight', year: 2008 },
-    { title: '12 Angry Men', year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: 'Pulp Fiction', year: 1994 },
-    {
-        title: 'The Lord of the Rings: The Return of the King',
-        year: 2003,
-    },
-    { title: 'The Good, the Bad and the Ugly', year: 1966 },
-    { title: 'Fight Club', year: 1999 },
-    {
-        title: 'The Lord of the Rings: The Fellowship of the Ring',
-        year: 2001,
-    },
-    {
-        title: 'Star Wars: Episode V - The Empire Strikes Back',
-        year: 1980,
-    },
-    { title: 'Forrest Gump', year: 1994 },
-    { title: 'Inception', year: 2010 },
-    {
-        title: 'The Lord of the Rings: The Two Towers',
-        year: 2002,
-    },
-    { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
-    { title: 'Goodfellas', year: 1990 },
-    { title: 'The Matrix', year: 1999 },
-    { title: 'Seven Samurai', year: 1954 },
-    {
-        title: 'Star Wars: Episode IV - A New Hope',
-        year: 1977,
-    },
-    { title: 'City of God', year: 2002 },
-    { title: 'Se7en', year: 1995 },
-    { title: 'The Silence of the Lambs', year: 1991 },
-    { title: "It's a Wonderful Life", year: 1946 },
-    { title: 'Life Is Beautiful', year: 1997 },
-    { title: 'The Usual Suspects', year: 1995 },
-    { title: 'Léon: The Professional', year: 1994 },
-    { title: 'Spirited Away', year: 2001 },
-    { title: 'Saving Private Ryan', year: 1998 },
-    { title: 'Once Upon a Time in the West', year: 1968 },
-    { title: 'American History X', year: 1998 },
-    { title: 'Interstellar', year: 2014 },
-    { title: 'Casablanca', year: 1942 },
-    { title: 'City Lights', year: 1931 },
-    { title: 'Psycho', year: 1960 },
-    { title: 'The Green Mile', year: 1999 },
-    { title: 'The Intouchables', year: 2011 },
-    { title: 'Modern Times', year: 1936 },
-    { title: 'Raiders of the Lost Ark', year: 1981 },
-    { title: 'Rear Window', year: 1954 },
-    { title: 'The Pianist', year: 2002 },
-    { title: 'The Departed', year: 2006 },
-    { title: 'Terminator 2: Judgment Day', year: 1991 },
-    { title: 'Back to the Future', year: 1985 },
-    { title: 'Whiplash', year: 2014 },
-    { title: 'Gladiator', year: 2000 },
-    { title: 'Memento', year: 2000 },
-    { title: 'The Prestige', year: 2006 },
-    { title: 'The Lion King', year: 1994 },
-    { title: 'Apocalypse Now', year: 1979 },
-    { title: 'Alien', year: 1979 },
-    { title: 'Sunset Boulevard', year: 1950 },
-    {
-        title: 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb',
-        year: 1964,
-    },
-    { title: 'The Great Dictator', year: 1940 },
-    { title: 'Cinema Paradiso', year: 1988 },
-    { title: 'The Lives of Others', year: 2006 },
-    { title: 'Grave of the Fireflies', year: 1988 },
-    { title: 'Paths of Glory', year: 1957 },
-    { title: 'Django Unchained', year: 2012 },
-    { title: 'The Shining', year: 1980 },
-    { title: 'WALL·E', year: 2008 },
-    { title: 'American Beauty', year: 1999 },
-    { title: 'The Dark Knight Rises', year: 2012 },
-    { title: 'Princess Mononoke', year: 1997 },
-    { title: 'Aliens', year: 1986 },
-    { title: 'Oldboy', year: 2003 },
-    { title: 'Once Upon a Time in America', year: 1984 },
-    { title: 'Witness for the Prosecution', year: 1957 },
-    { title: 'Das Boot', year: 1981 },
-    { title: 'Citizen Kane', year: 1941 },
-    { title: 'North by Northwest', year: 1959 },
-    { title: 'Vertigo', year: 1958 },
-    {
-        title: 'Star Wars: Episode VI - Return of the Jedi',
-        year: 1983,
-    },
-    { title: 'Reservoir Dogs', year: 1992 },
-    { title: 'Braveheart', year: 1995 },
-    { title: 'M', year: 1931 },
-    { title: 'Requiem for a Dream', year: 2000 },
-    { title: 'Amélie', year: 2001 },
-    { title: 'A Clockwork Orange', year: 1971 },
-    { title: 'Like Stars on Earth', year: 2007 },
-    { title: 'Taxi Driver', year: 1976 },
-    { title: 'Lawrence of Arabia', year: 1962 },
-    { title: 'Double Indemnity', year: 1944 },
-    {
-        title: 'Eternal Sunshine of the Spotless Mind',
-        year: 2004,
-    },
-    { title: 'Amadeus', year: 1984 },
-    { title: 'To Kill a Mockingbird', year: 1962 },
-    { title: 'Toy Story 3', year: 2010 },
-    { title: 'Logan', year: 2017 },
-    { title: 'Full Metal Jacket', year: 1987 },
-    { title: 'Dangal', year: 2016 },
-    { title: 'The Sting', year: 1973 },
-    { title: '2001: A Space Odyssey', year: 1968 },
-    { title: "Singin' in the Rain", year: 1952 },
-    { title: 'Toy Story', year: 1995 },
-    { title: 'Bicycle Thieves', year: 1948 },
-    { title: 'The Kid', year: 1921 },
-    { title: 'Inglourious Basterds', year: 2009 },
-    { title: 'Snatch', year: 2000 },
-    { title: '3 Idiots', year: 2009 },
-    { title: 'Monty Python and the Holy Grail', year: 1975 },
-];

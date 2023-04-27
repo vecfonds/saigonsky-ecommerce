@@ -12,13 +12,10 @@ import TextField from '@mui/material/TextField';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import {
-  loginUser,
-  authenticationSelector,
-  clearState,
-} from '../../store/features/authenticationSlice';
+
 import { useSelector, useDispatch } from "react-redux";
 import axios from 'axios';
+import { loadDataUser, userSelector } from '../../store/features/userSlice';
 
 const validationSchema = z
   .object({
@@ -38,6 +35,8 @@ function Login() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+
 
 
   const [hiddenPwd, setHiddenPwd] = useState(false);
@@ -87,7 +86,7 @@ function Login() {
   //   // console.log(data)
   //   axios
   //     .post(
-  //       "http://localhost/LTW_BE-SignUp_API/Controllers/LoginController.php",
+  //       "http://localhost/LTW_BE-dev/Controllers/LoginController.php",
   //       {
   //         phone_number: data.phonenumber,
   //         password: data.password,
@@ -127,9 +126,9 @@ function Login() {
   const onSubmit = (data) => {
     axios
       .post(
-        "http://localhost/LTW_BE-SignUp_API/Controllers/LoginController.php",
+        "http://localhost/LTW_BE-dev/Controllers/LoginController.php",
         {
-          phone_number: data.phonenumber,
+          phoneNumber: data.phonenumber,
           password: data.password,
         },
         {
@@ -142,8 +141,8 @@ function Login() {
         console.log("ffsdff", res.data);
         setMessage(res.data.message);
         if (res.data.isSuccess === true) {
-          console.log("ok", res.data.isSuccess);
-          // dispatch(getUserInfo(phonenumber));
+          // console.log("ok", res.data.isSuccess);
+          dispatch(loadDataUser(res.data));
           navigate("/sanpham");
         }
       })

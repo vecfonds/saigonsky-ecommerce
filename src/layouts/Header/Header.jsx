@@ -47,11 +47,23 @@ import {
 import { StaticRouter } from 'react-router-dom/server';
 import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
-
-
+import { useDispatch, useSelector } from "react-redux";
+import { userSelector } from "../../store/features/userSlice";
+import { clearData } from "../../store/features/userSlice";
+import ContactMailIcon from '@mui/icons-material/ContactMail';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import KeyIcon from '@mui/icons-material/Key';
+import LogoutIcon from '@mui/icons-material/Logout';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import HistoryIcon from '@mui/icons-material/History';
+import StoreIcon from '@mui/icons-material/Store';
+import LoginIcon from '@mui/icons-material/Login';
+import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied';
 
 function Header() {
     const { pathname } = useLocation();
+    const dispatch = useDispatch();
 
     const [checked, setChecked] = useState(false);
 
@@ -63,6 +75,18 @@ function Header() {
         return isActive ? "nav-link activated" : "nav-link";
     };
 
+    const {
+        Address,
+        Birthday,
+        Email,
+        Gender,
+        Id,
+        Is_active,
+        Name,
+        Password,
+        Phone_number,
+        Role,
+    } = useSelector(userSelector);
 
     useEffect(() => {
         let topnav = document.querySelector('.topnav');
@@ -141,7 +165,7 @@ function Header() {
                     component={RouterLink} to='/gioithieu'
                 >
                     <ListItemIcon>
-                        <HomeSharpIcon />
+                        <StoreIcon />
                     </ListItemIcon>
                     <ListItemText primary="GIỚI THIỆU" />
                 </ListItemButton>
@@ -159,7 +183,7 @@ function Header() {
                     component={RouterLink} to='/tintuc'
                 >
                     <ListItemIcon>
-                        <CategoryIcon />
+                        <NewspaperIcon />
                     </ListItemIcon>
                     <ListItemText primary="TIN TỨC" />
                 </ListItemButton>
@@ -169,28 +193,93 @@ function Header() {
                     component={RouterLink} to='/lienhe'
                 >
                     <ListItemIcon>
-                        <CategoryIcon />
+                        <ContactMailIcon />
                     </ListItemIcon>
                     <ListItemText primary="LIÊN HỆ" />
                 </ListItemButton>
 
-                <ListItemButton onClick={handleChecked}
-                    component={RouterLink} to='/dangnhap'
-                >
-                    <ListItemIcon>
-                        <CategoryIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="ĐĂNG NHẬP" />
-                </ListItemButton>
 
                 <ListItemButton onClick={handleChecked}
-                    component={RouterLink} to='/dangky'
+                    component={RouterLink} to='/giohang'
                 >
                     <ListItemIcon>
-                        <CategoryIcon />
+                        <ShoppingCartIcon />
                     </ListItemIcon>
-                    <ListItemText primary="ĐĂNG KÝ" />
+                    <ListItemText primary="GIỎ HÀNG" />
                 </ListItemButton>
+
+                {
+                    Name && <>
+                        <ListItemButton onClick={handleChecked}
+                            component={RouterLink} to='/taikhoan'
+                        >
+                            <ListItemIcon>
+                                <ManageAccountsIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="THÔNG TIN TÀI KHOẢN" />
+                        </ListItemButton>
+
+                        <ListItemButton onClick={handleChecked}
+                            component={RouterLink} to='/lichsudonhang'
+                        >
+                            <ListItemIcon>
+                                <HistoryIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="LỊCH SỬ ĐƠN HÀNG" />
+                        </ListItemButton>
+
+                        <ListItemButton onClick={handleChecked}
+                            component={RouterLink} to='/danhsachyeuthich'
+                        >
+                            <ListItemIcon>
+                                <FavoriteIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="DANH SÁCH YÊU THíCH" />
+                        </ListItemButton>
+
+                        <ListItemButton onClick={handleChecked}
+                            component={RouterLink} to='/thaydoimatkhau'
+                        >
+                            <ListItemIcon>
+                                <KeyIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="THAY ĐỔI MẬT KHẨU" />
+                        </ListItemButton>
+
+
+                        <ListItemButton onClick={() => {
+                            handleChecked();
+                            dispatch(clearData());
+                        }}
+                            component={RouterLink} to='/dangnhap'
+                        >
+                            <ListItemIcon>
+                                <LogoutIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="ĐĂNG XUẤT" />
+                        </ListItemButton>
+
+                    </> ||
+                    <>
+                        <ListItemButton onClick={handleChecked}
+                            component={RouterLink} to='/dangnhap'
+                        >
+                            <ListItemIcon>
+                                <LoginIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="ĐĂNG NHẬP" />
+                        </ListItemButton>
+
+                        <ListItemButton onClick={handleChecked}
+                            component={RouterLink} to='/dangky'
+                        >
+                            <ListItemIcon>
+                                <SensorOccupiedIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="ĐĂNG KÝ" />
+                        </ListItemButton>
+                    </>
+                }
 
             </List>
         );
@@ -232,10 +321,26 @@ function Header() {
                 {/* <!-- <a href="">Log in</a>
                     <a href="">Sign up</a> --> */}
                 <div className="btn-log"><Link to='/giohang'><LocalMallOutlinedIcon />Giỏ hàng</Link></div>
-                <div className="btn-log btn-taikhoan"><Link><AccountCircleSharpIcon />Tài khoản
+                <div className="btn-log btn-taikhoan"><Link><AccountCircleSharpIcon />{Name.split(" ").reverse().slice(0, 2).reverse().join(" ") || Name || "Tài khoản"}
                     <ul className='taikhoan'>
-                        <li><Link to='/dangnhap'>Đăng nhập</Link></li>
+                        {
+                            Name && <>
+                                <li><Link to='/taikhoan'>Thông tin tài khoản</Link></li>
+                                <li><Link to='/lichsudonhang'>Lịch sử đơn hàng</Link></li>
+                                <li><Link to='/danhsachyeuthich'>Danh sách yêu thích</Link></li>
+                                <li><Link to='/thaydoimatkhau'>Thay Đổi Mật Khẩu</Link></li>
+                                <li><Link to='/dangnhap' onClick={() => dispatch(clearData())}>Đăng xuất</Link></li>
+                            </> ||
+                            <><li><Link to='/dangnhap'>Đăng nhập</Link></li>
+                                <li><Link to='/dangky'>Đăng ký</Link></li>
+                            </>
+                        }
+                        {/* <li><Link to='/dangnhap'>Đăng nhập</Link></li>
                         <li><Link to='/dangky'>Đăng ký</Link></li>
+                        <li><Link to='/taikhoan'>Thông tin tài khoản</Link></li>
+                        <li><Link to='/lichsudonhang'>Lịch sử đơn hàng</Link></li>
+                        <li><Link to='/thaydoimatkhau'>Thay Đổi Mật Khẩu</Link></li> */}
+
                     </ul>
                 </Link></div>
                 {/* <div className="btn-log"><Link to='/dangnhap'><AccountCircleSharpIcon /></Link></div>

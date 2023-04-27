@@ -1,18 +1,23 @@
 #products {
     margin: 7rem 0 4rem;
-    padding: 0 100px;
+    padding: 0 10vw;
     /* font-family: sans-serif;
     text-align: center; */
+    min-height: calc(100vh - 11rem);
 }
 
 
 .filter_products {
-    margin: 3rem 1rem 0rem;
+    margin: 3rem 0rem 0rem;
     display: flex;
     gap: 2rem;
     align-items: center;
     justify-content: space-between;
     font-size: 18px;
+}
+
+.filter_products-left {
+    min-width: 300px;
 }
 
 .filter_products-right {
@@ -25,17 +30,19 @@
 .form-input {
     display: flex;
     align-items: center;
-    border: 1px solid #333;
+    border: 1px solid #C3BFBF;
     border-radius: 5px;
 }
 
 .form-input input {
+    height: 40px;
     outline: none;
     border: none;
     background-color: transparent;
     font-size: 16px;
     padding: 8px 10px;
     width: 100%;
+
 }
 
 .form-input i {
@@ -58,6 +65,11 @@
     gap: 0.5rem;
 }
 
+.form-sort>p {
+    display: inline-block;
+    justify-self: center;
+    margin-bottom: 0;
+}
 
 /* Products */
 .productsz {
@@ -103,6 +115,21 @@ h3 {
     display: none;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /************************ main ***************************/
 
 
@@ -118,7 +145,7 @@ h3 {
     margin-top: 30px;
     display: flex;
     justify-content: center;
-    align-content: space-around;
+    align-content: space-evenly;
     flex-wrap: wrap;
     row-gap: 50px;
     row-gap: 20px;
@@ -128,7 +155,8 @@ h3 {
 }
 
 .product-card {
-    flex: 1 1 270px;
+    flex: 1 1 275px;
+    max-width: 275px;
     text-align: center;
     /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
     display: flex;
@@ -224,7 +252,7 @@ h3 {
 
 .product-card-detail .name {
     color: #8A8A8F;
-    font-size: 20px;
+    font-size: 16px;
     text-transform: uppercase;
     transition: 0.5s;
 }
@@ -237,6 +265,13 @@ h3 {
     color: var(--primary-colorBlue1);
     font-weight: bold;
 }
+
+.product-card-detail>p.price {
+    /* margin-bottom: 0; */
+    font-size: 16px;
+}
+
+
 
 .btn {
     /* display: inline-block;
@@ -357,6 +392,13 @@ span {
 
 
 /************************ media ***************************/
+@media screen and (max-width: 1300px) {
+    .product-card {
+        max-width: 330px;
+    }
+
+}
+
 @media screen and (max-width: 1200px) {
     main {
         padding: 20px 30px;
@@ -382,6 +424,20 @@ span {
     }
 }
 
+/* @media screen and (max-width: 1085px) {
+    .product-card {
+        max-width: 500px;
+    }
+
+} */
+
+@media screen and (max-width: 1075px) {
+    .form-sort>p {
+        display: none;
+    }
+
+}
+
 @media screen and (max-width: 1024px) {
     /* html {
         font-size: 55%;
@@ -399,9 +455,15 @@ span {
     .products {
         flex: 5;
     }
+
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 950px) {
+    #products {
+        margin: 6rem 0 4rem;
+
+    }
+
     .left {
         flex: 2.5;
     }
@@ -421,12 +483,17 @@ span {
 
     }
 
+    .product-card {
+        max-width: 350px;
+    }
+
+
 }
 
 @media screen and (max-width: 768px) {
-    /* html {
-        font-size: 50%;
-    } */
+    #products>div>.sub-tilte {
+        margin-bottom: 0rem;
+    }
 
     .category--title,
     .top-product--title {
@@ -455,23 +522,55 @@ span {
     .search-box input {
         width: 90%;
     }
+
+
+    .filter_products {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .filter_products-left {
+        min-width: 100%;
+    }
+
+    .form-select {
+        /* width: calc(100vw -30vw) !important; */
+        width: calc(80vw/2 - 1rem);
+        min-width: auto !important;
+    }
+
+
+
+    .filter_products {
+        margin-top: 1rem;
+    }
 }
 
-@media screen and (max-width: 380px) {
-    main {
-        padding: 20px;
+@media screen and (max-width: 700px) {
+    .product-card {
+        max-width: none;
     }
 
-    .products {
-        margin-top: 5px;
+}
+
+
+
+@media screen and (max-width: 600px) {
+    #products {
+        margin: 6rem 0 4rem;
+        padding: 0 1.5rem;
+
     }
 
-    .products--title {
-        text-decoration: underline;
+    .form-select {
+        /* width: calc(100vw -30vw) !important; */
+        width: calc(100vw/2 - 1.75rem);
+        min-width: auto !important;
     }
 
-    .list-group-item {
-        text-align: center;
+    .filter_products-right {
+        gap: 0.5rem;
+
     }
 
 }

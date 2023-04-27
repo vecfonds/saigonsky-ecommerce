@@ -15,10 +15,10 @@ const validationSchema = z
         //     message: "Must be a valid email",
         // }),
         // phonenumber: z.string(),
-        phonenumber: z.string().transform(data => Number(data)),
+        phonenumber: z.string().min(1, { message: "Phone number is required" }),//.transform(data => Number(data))
         // phonenumber: z.number().min(1, { message: "Name is required" }),
 
-        address: z.string().min(1, { message: "Name is required" }),
+        address: z.string().min(1, { message: "Address is required" }),
         password: z
             .string()
             .min(6, { message: "Password must be atleast 6 characters" }),
@@ -59,7 +59,7 @@ const Signup = () => {
 
 
     const onSubmit = (data) => {
-        console.log(data);
+        // console.log(typeof (data.phonenumber));
         // try {
         //     const validatedForm = validationSchema.parse(data);
         //     console.log(validatedForm);
@@ -67,12 +67,14 @@ const Signup = () => {
         //     console.log(err);
         // }
 
+        console.log(data)
+
         axios
             .post(
-                "http://localhost/LTW_BE-SignUp_API/Controllers/SignupController.php",
+                "http://localhost/LTW_BE-dev/Controllers/SignupController.php",
                 {
                     name: data.fullname,
-                    phone_number: data.phonenumber,
+                    phoneNumber: data.phonenumber,
                     address: data.address,
                     password: data.password
                 },
@@ -83,18 +85,21 @@ const Signup = () => {
                 }
             )
             .then((res) => {
+                // res.data = JSON.parse(res.data);
                 console.log("ffsdff", res.data);
+
+                // const result = JSON.parse(res.data);
+                // console.log(result);
+
                 setMessage(res.data.message);
                 // setMessage(res.data.message);
                 if (res.data.isSuccess === true) {
-                    console.log("ok", res.data.isSuccess);
-                    // dispatch(getUserInfo(phonenumber));
+                    // console.log("ok", res.data.isSuccess);
                     navigate("/dangnhap");
                 }
             })
             .catch((err) => {
                 console.log("err", err);
-
             });
 
 
@@ -344,10 +349,7 @@ const Signup = () => {
 
                             </div>
 
-                            {message &&
-                                <p className="textDanger" style={{ textAlign: "center" }}>
-                                    {message}
-                                </p>}
+
 
 
                             <button className="submit-btn" type="submit">Gửi</button>

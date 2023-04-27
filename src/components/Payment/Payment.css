@@ -95,7 +95,7 @@
 }
 
 .form-groupP {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 
 }
 
@@ -135,8 +135,8 @@
     position: absolute;
     top: 0;
     left: 10px;
-    /* background-color: var(--main-1); */
-    background: linear-gradient(to bottom, transparent, transparent, transparent, transparent, #EAD0B7, transparent, transparent, transparent, transparent);
+    background-color: var(--main-1);
+    /* background: linear-gradient(to bottom, transparent, transparent, transparent, transparent, #EAD0B7, transparent, transparent, transparent, transparent); */
 
     padding: 1px 5px;
     font-size: 12px;

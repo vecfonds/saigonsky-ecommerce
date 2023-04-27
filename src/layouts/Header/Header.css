@@ -470,6 +470,7 @@
 
 .taikhoan li {
     padding: 0.4rem 1rem;
+    white-space: nowrap;
 }
 
 .taikhoan li:hover {

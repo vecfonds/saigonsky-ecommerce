@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './ProductDetail.css'
 import ImageGallery from 'react-image-gallery';
 import Table from '@mui/material/Table';
@@ -12,13 +12,30 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
 import { motion } from "framer-motion"
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Slider from "react-slick";
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { Card, CardMedia } from '@mui/material';
+import { Card, CardMedia, Stack } from '@mui/material';
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import Typography from '@mui/material/Typography';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadDataProducts, productsSelector } from '../../store/features/productsSlice';
+import axios from 'axios';
+import { addDataFavorite, deleteDataFavorite, favoriteSelector } from '../../store/features/FavoriteSlice';
+import { addShoppingCart, shoppingCartSelector } from '../../store/features/shoppingCartSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const VND = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+});
 
 const images = [
     {
@@ -57,13 +74,6 @@ const sizes = [
 
 ]
 
-const rows = [
-    createData('Chất liệu', 'vải tổng hợp cao cấp'),
-    createData('Kiểu dáng', 'áo thiết kế dáng peplum, tay bồng , tone màu trắng trơn'),
-    createData('Sản phẩm thuộc dòng sản phẩm', 'NEM NEW'),
-    createData('Thông tin người mẫu', 'mặc sản phẩm size 2'),
-    createData('Sản phẩm kết hợp', 'quần Q20522'),
-];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -77,6 +87,61 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 
 const ProductDetail = () => {
+    const location = useLocation();
+    const params = useParams();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+
+    const {
+        data
+    } = useSelector(productsSelector);
+
+
+
+    // useEffect(() => {
+    //     axios
+    //         .get(
+    //             "http://localhost/LTW_BE-dev/Controllers/ShowProduct.php",
+
+    //             {
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                 },
+    //             }
+    //         )
+    //         .then((res) => {
+    //             // res.data = JSON.parse(res.data);
+    //             console.log("ffsdff", res.data);
+
+    //             // const result = JSON.parse(res.data);
+    //             // console.log(result);
+    //             // setMessage(res.data.message);
+    //             if (res.data.isSuccess === true) {
+    //                 // console.log("ok", res.data.isSuccess);
+    //                 // navigate("/dangnhap");
+    //                 console.log("res.data.", res.data.data);
+    //                 dispatch(loadDataProducts(res.data.data));
+
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             console.log("err", err);
+    //         });
+
+    // }, [])
+
+    // useEffect(() => {
+    //     // console.log("cc", data)
+
+    //     setDataProductDetail(data.filter(product => product.Id === params.productId)[0]);
+    // }, [params.productId, data]);
+
+    // console.log("dataProductDetail", dataProductDetail)
+    // console.log("location.state?.id", location.state?.id)
+    // console.log("params.productId", params.productId)
+
+
 
     const offscreen = { y: "1.5rem", opacity: 0 };
     const onscreen = {
@@ -178,7 +243,7 @@ const ProductDetail = () => {
 
     const [quantity, setQuantity] = useState(1);
 
-    const [size, setSize] = useState(4);
+    const [size, setSize] = useState("Size 4");
 
     const [color, setColor] = useState("Vàng");
 
@@ -199,9 +264,77 @@ const ProductDetail = () => {
     }
 
 
+    const [value, setValue] = React.useState(2);
+
+    const StyledRating = styled(Rating)({
+        '& .MuiRating-iconFilled': {
+            color: '#ff6d75',
+        },
+        '& .MuiRating-iconHover': {
+            color: '#ff3d47',
+        },
+    });
+
+
+    const {
+        dataFavorite
+    } = useSelector(favoriteSelector);
+
+    console.log("dataFavorite", dataFavorite)
+
+
+
+    const {
+        dataShoppingCart
+    } = useSelector(shoppingCartSelector);
+
+    console.log("dataShoppingCart", dataShoppingCart)
+
+
+    function handleClickFavorite() {
+        if (dataFavorite.filter(item => item === params.productId).length) {
+            dispatch(deleteDataFavorite(params.productId));
+        }
+        else {
+            dispatch(addDataFavorite(params.productId));
+
+        }
+    }
+
+    const dataProductDetail = data.filter(product => product.Id === params.productId)[0];
+    const rows = [
+        createData('Chất liệu', dataProductDetail.Material),
+        createData('Kiểu dáng', dataProductDetail.Style),
+        createData('Sản phẩm thuộc dòng sản phẩm', dataProductDetail.Album),
+        createData('Thông tin người mẫu', dataProductDetail.Model),
+        createData('Sản phẩm kết hợp', dataProductDetail.Connect),
+    ];
+
+    const notify = (text) => toast.warning(text, {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
+    function handleAddCart() {
+        if (dataShoppingCart.filter(item => item.data.Id === dataProductDetail.Id && item.color === color && item.size === size).length) {
+            notify("Sản phẩm này đã có trong giỏ hàng!");
+        }
+        else {
+            dispatch(addShoppingCart({ data: dataProductDetail, size, color, quantity }))
+            navigate("/giohang");
+        }
+    }
+
     return (
         <div className='productdetail'>
             <input type="checkbox" hidden name="" id="instruction-popup" checked={checked} readOnly />
+            <ToastContainer />
 
             {checked &&
                 <TableContainer component={Paper}
@@ -274,83 +407,53 @@ const ProductDetail = () => {
                         initial={offscreen}
                         whileInView={onscreen}
                         viewport={{ once: true }}
+                        style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
                     >
-                        <h2 className="title">ÁO KÝ GIẢ AK19642</h2>
+                        <h2 className="title">
+                            {dataProductDetail.Name}
+                        </h2>
+                        <StyledRating
+                            // name="customized-color"
+                            defaultValue={0}
+                            value={dataFavorite.filter(item => item === params.productId).length}
+                            onClick={handleClickFavorite}
+                            getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
+                            precision={1}
+                            icon={<FavoriteIcon fontSize="large" />}
+                            emptyIcon={<FavoriteBorderIcon fontSize="large" />}
+                            max={1}
+                            size="large"
+                            name="size-large"
+                        />
+
                     </motion.div>
+
+
                     <div className='subtitle'>
-                        <p className="brand-name"><strong>Thương hiệu:</strong> NEM</p>
-                        <p className="product-code"><strong>Mã SP:</strong> 196421312312160401</p>
+                        <p className="brand-name"><strong>Thương hiệu:</strong> {dataProductDetail?.Album}</p>
+                        <p className="product-code"><strong>Mã SP:</strong> {params.productId}</p>
                     </div>
 
-                    <p className="price">1,199,000₫</p>
+                    {/* <p className="price">{parseInt(dataProductDetail?.Price)}₫</p> */}
+                    <p className="price">{VND.format(dataProductDetail?.Price)}</p>
+
 
                     <div className="size">
                         <p><strong>Kích thước:</strong> Size {size}</p>
 
                         <div className='select-size'>
-                            <div className={size === 4 && "size-checked"} onClick={() => setSize(4)}>Size 4
+                            <div className={size === "Size 4" && "size-checked"} onClick={() => setSize("Size 4")}>Size 4
                                 <img src="/assets/images/checked.jpg" alt="" className="img-checked" />
                             </div>
-                            <div className={size === 6 && "size-checked"} onClick={() => setSize(6)}>Size 6
-                                <img src="/assets/images/checked.jpg" alt="" className="img-checked" />
-
-                            </div>
-                            <div className={size === 8 && "size-checked"} onClick={() => setSize(8)}>Size 8
+                            <div className={size === "Size 6" && "size-checked"} onClick={() => setSize("Size 6")}>Size 6
                                 <img src="/assets/images/checked.jpg" alt="" className="img-checked" />
 
                             </div>
+                            <div className={size === "Size 8" && "size-checked"} onClick={() => setSize("Size 8")}>Size 8
+                                <img src="/assets/images/checked.jpg" alt="" className="img-checked" />
 
+                            </div>
                         </div>
-                        {/* <div className="select-swap">
-
-                        <div data-value="Size 4" className="n-sd swatch-element size-4 ">
-                            <input className="variant-0 input-product" id="swatch-0-size-4" type="radio" name="option1" value="Size 4" checked="" />
-
-                            <label for="swatch-0-size-4" className="">
-                                Size 4
-                                <img className="crossed-out" src="//theme.hstatic.net/200000182297/1000887316/14/soldout.png?v=556" />
-                                <img className="img-check" src="//theme.hstatic.net/200000182297/1000887316/14/select-pro1.png?v=556" />
-                            </label>
-
-                        </div>
-
-
-
-
-
-
-
-                        <div data-value="Size 6" className="n-sd swatch-element size-6 ">
-                            <input className="variant-0 input-product" id="swatch-0-size-6" type="radio" name="option1" value="Size 6" />
-
-                            <label for="swatch-0-size-6" className="sd">
-                                Size 6
-                                <img className="crossed-out" src="//theme.hstatic.net/200000182297/1000887316/14/soldout.png?v=556" />
-                                <img className="img-check" src="//theme.hstatic.net/200000182297/1000887316/14/select-pro1.png?v=556" />
-                            </label>
-
-                        </div>
-
-
-
-
-
-
-
-                        <div data-value="Size 8" className="n-sd swatch-element size-8 ">
-                            <input className="variant-0 input-product" id="swatch-0-size-8" type="radio" name="option1" value="Size 8" />
-
-                            <label for="swatch-0-size-8">
-                                Size 8
-                                <img className="crossed-out" src="//theme.hstatic.net/200000182297/1000887316/14/soldout.png?v=556" />
-                                <img className="img-check" src="//theme.hstatic.net/200000182297/1000887316/14/select-pro1.png?v=556" />
-                            </label>
-
-                        </div>
-
-
-                    </div> */}
-
                     </div>
 
 
@@ -385,8 +488,9 @@ const ProductDetail = () => {
                     </div>
 
                     {/* <div className="btn">THÊM VÀO GIỎ HÀNG</div> */}
-                    <Link to='/giohang' className="btn">THÊM VÀO GIỎ HÀNG</Link>
-                    <div className="btn">MUA NGAY</div>
+                    {/* <Link to='/giohang' className="btn" onClick={() => dispatch(addShoppingCart({ data: dataProductDetail, size, color, quantity }))}>THÊM VÀO GIỎ HÀNG</Link> */}
+                    <div className="btn" onClick={handleAddCart}>THÊM VÀO GIỎ HÀNG</div>
+                    <div className="btn" onClick={() => navigate('/thanhtoan')}>MUA NGAY</div>
 
                     <TableContainer component={Paper}>
                         <Table >
@@ -434,7 +538,7 @@ const ProductDetail = () => {
                     <Slider {...settings}
                         className='similar-product-slider'
                     >
-                        {slides.map((slide, index) => {
+                        {/* {slides.map((slide, index) => {
                             return (
                                 <div key={index}>
                                     <div className="product-card">
@@ -451,7 +555,46 @@ const ProductDetail = () => {
                                     </div>
                                 </div>
                             );
-                        })}
+                        })} */}
+                        {data.filter(item => item.Type === dataProductDetail?.Type && item.Id !== params.productId).slice(0, 4).map(product =>
+                            <div className="product-card">
+                                <Link to={`/sanpham/${product.Id}`} state={{ id: product.Id }} className="product-card-img">
+
+                                    <img src="/assets/images/products/1.jpg" alt="item" />
+                                    {/* <Rating
+                                    // name="size-large"
+                                    value={5}
+                                    precision={0.1}
+                                    readOnly
+                                    sx={{ position: "absolute", right: "5px", top: "5px" }}
+                                /> */}
+
+
+                                    <StyledRating
+                                        // name="customized-color"
+                                        defaultValue={0}
+                                        value={dataFavorite.filter(item => item === product.Id).length}
+                                        readOnly
+                                        getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
+                                        precision={1}
+                                        icon={<FavoriteIcon fontSize="inherit" />}
+                                        emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+                                        sx={{ position: "absolute", right: "10px", top: "10px", fontSize: "large" }}
+                                        max={1}
+                                        size="inherit"
+                                        name="size-large"
+                                    />
+                                    <div className="product-card-body">
+                                        <Link to={`/sanpham/${product.Id}`} state={{ id: product.Id }} className="btn">MUA NGAY</Link>
+                                    </div>
+                                </Link>
+
+                                <div className="product-card-detail">
+                                    <Link to={`/sanpham/${product.Id}`} state={{ id: product.Id }} className="name">{product.Name}</Link>
+                                    <p className="price">Giá: {VND.format(product?.Price)}</p>
+
+                                </div>
+                            </div>)}
                     </Slider>
 
                     {/* <div className="product--details">
@@ -510,7 +653,6 @@ const ProductDetail = () => {
 
                 </motion.div>
             </div>
-
         </div>
     )
 }
