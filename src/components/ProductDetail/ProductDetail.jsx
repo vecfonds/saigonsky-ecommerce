@@ -37,23 +37,7 @@ const VND = new Intl.NumberFormat('vi-VN', {
     currency: 'VND',
 });
 
-const images = [
-    {
-        original: '/assets/images/products/1.jpg',
-        thumbnail: '/assets/images/products/1.jpg',
 
-    },
-    {
-        original: '/assets/images/products/2.jpg',
-        thumbnail: '/assets/images/products/2.jpg',
-
-    },
-    {
-        original: '/assets/images/products/3.jpg',
-        thumbnail: '/assets/images/products/3.jpg',
-
-    },
-];
 
 
 function createData(name, describe) {
@@ -331,6 +315,28 @@ const ProductDetail = () => {
         }
     }
 
+
+
+
+
+    const images = [
+        {
+            original: `${dataProductDetail.image.filter(i => i.Main === 1)[0]?.Content}`,
+            thumbnail: `${dataProductDetail.image.filter(i => i.Main === 1)[0]?.Content}`,
+
+        },
+        {
+            original: `${dataProductDetail.image.filter(i => i.Main === 0)[0]?.Content}`,
+            thumbnail: `${dataProductDetail.image.filter(i => i.Main === 0)[0]?.Content}`,
+
+        },
+        {
+            original: `${dataProductDetail.image.filter(i => i.Main === 0)[1]?.Content}`,
+            thumbnail: `${dataProductDetail.image.filter(i => i.Main === 0)[1]?.Content}`,
+
+        },
+    ];
+
     return (
         <div className='productdetail'>
             <input type="checkbox" hidden name="" id="instruction-popup" checked={checked} readOnly />
@@ -560,7 +566,7 @@ const ProductDetail = () => {
                             <div className="product-card">
                                 <Link to={`/sanpham/${product.Id}`} state={{ id: product.Id }} className="product-card-img">
 
-                                    <img src="/assets/images/products/1.jpg" alt="item" />
+                                    <img src={`${product.image.filter(i => i.Main === 1)[0]?.Content}`} alt="item" />
                                     {/* <Rating
                                     // name="size-large"
                                     value={5}

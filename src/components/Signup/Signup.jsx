@@ -71,7 +71,7 @@ const Signup = () => {
 
         axios
             .post(
-                "http://localhost/LTW_BE-dev/Controllers/SignupController.php",
+                "http://localhost/LTW_BE-dev/Controllers/SignUpController.php",
                 {
                     name: data.fullname,
                     phoneNumber: data.phonenumber,

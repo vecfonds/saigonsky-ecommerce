@@ -104,110 +104,15 @@ const Products = () => {
             )
             .then((res) => {
                 // res.data = JSON.parse(res.data);
-                console.log("product - res.data", res.data);
+                console.log("ffsdff", res.data);
 
+                // const result = JSON.parse(res.data);
+                // console.log(result);
+                // setMessage(res.data.message);
                 if (res.data.isSuccess === true) {
                     // console.log("ok", res.data.isSuccess);
                     // navigate("/dangnhap");
                     console.log("res.data.", res.data.data);
-
-                    // const data = res.data.data;
-                    // data.forEach((product, index) => {
-                    //     console.log("product.Id", product.Id);
-
-                    //     axios
-                    //         .get(
-                    //             "http://localhost/LTW_BE-dev/Controllers/GetImages.php",
-                    //             // {
-                    //             //     params: {
-                    //             //         productID: product.Id,
-                    //             //     },
-                    //             //     responseType: "arraybuffer"
-
-                    //             // },
-
-                    //             {
-                    //                 headers: {
-                    //                     "Content-Type": "image/jpeg",
-                    //                 },
-                    //             }
-
-                    //         )
-                    //         .then((response) => {
-                    //             // Handle successful response
-                    //             const imageData = response.data;
-
-                    //             console.log(" typeofimageData", typeof (imageData))
-                    //             console.log(" typeofimageData", JSON.stringify(imageData) === '{}')
-
-                    //             console.log("imageData", imageData)
-
-                    //             const imageUrls = imageData.map(img => URL.createObjectURL(new Blob([img], { type: 'image/jpeg' })));
-
-                    //             console.log("imageUrls", imageUrls)
-
-                    //             // const blobs = [];
-                    //             // for (let i = 0; i < arrayBuffer.length; i++) {
-                    //             //     const blob = new Blob([arrayBuffer[i]], { type: 'image/jpeg' });
-                    //             //     console.log("blob", blob)
-
-                    //             //     blobs.push(blob);
-                    //             // }
-                    //             // const imageUrls = blobs.map(blob => URL.createObjectURL(blob));
-                    //             // console.log("imageUrls", imageUrls)
-
-                    //             // console.log("imageData", imageData)
-                    //             // const imageUrl = URL.createObjectURL(new Blob([imageData], { type: "image/jpeg" }));
-
-                    //             // const imageUrl = imageData.map((img) =>
-                    //             //     URL.createObjectURL(new Blob(img, { type: "image/jpeg" }))
-                    //             // );
-
-                    //             // Use the imageUrl to display the image on the client-side
-
-                    //             // console.log("imageUrl", imageUrl);
-                    //             // data.filter((item) => item.Id === product.Id)[0].images =
-                    //             //     imageUrl;
-                    //         })
-                    //         .catch((error) => {
-                    //             // Handle error
-                    //             console.log(error);
-                    //         });
-
-
-                    //     // axios
-                    //     //     .get(
-                    //     //         "http://localhost/LTW_BE-dev/Controllers/GetImages.php",
-                    //     //         {
-                    //     //             productID: product.Id,
-                    //     //         },
-                    //     //         {
-                    //     //             headers: {
-                    //     //                 "Content-Type": "image/jpeg",
-                    //     //             },
-                    //     //         }
-                    //     //     )
-                    //     //     .then((response) => {
-                    //     //         // Handle successful response
-                    //     //         const imageData = response.data;
-
-                    //     //         console.log("imageData", imageData)
-                    //     //         const imageUrl = imageData.map((img) =>
-                    //     //             URL.createObjectURL(new Blob(img, { type: "image/jpeg" }))
-                    //     //         );
-
-                    //     //         // Use the imageUrl to display the image on the client-side
-
-                    //     //         console.log("imageUrl", imageUrl);
-                    //     //         data.filter((item) => item.Id === product.Id)[0].images =
-                    //     //             imageUrl;
-                    //     //     })
-                    //     //     .catch((error) => {
-                    //     //         // Handle error
-                    //     //         console.log(error);
-                    //     //     });
-                    // });
-
                     dispatch(loadDataProducts(res.data.data));
 
                 }
@@ -458,7 +363,7 @@ const Products = () => {
                     <div className="product-card" key={product.Id}>
                         <Link to={`${product.Id}`} state={{ id: product.Id }} className="product-card-img">
 
-                            <img src="/assets/images/products/1.jpg" alt="item" />
+                            <img src={`${product.image.filter(i => i.Main === 1)[0]?.Content}`} alt={product.Name} />
 
                             <StyledRating
                                 // name="customized-color"

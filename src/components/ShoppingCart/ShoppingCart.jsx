@@ -224,7 +224,7 @@ const ShoppingCart = () => {
 
                                         <div className='product-cart-shopping'>
                                             <div className="product-cart-shopping-img">
-                                                <img src="/assets/images/products/1.jpg" alt="" />
+                                                <img src={`${product.data.image.filter(i => i.Main === 1)[0]?.Content}`} alt="" />
                                             </div>
                                             <div className="product-cart-shopping-detail">
                                                 <h2 className="title">{product.data.Name}</h2>

@@ -230,11 +230,11 @@ const NewProducts = () => {
                 viewport={{ once: true }}
             >
                 <Slider {...settings}>
-                    {data.slice(-8).map(product =>
+                    {data.slice(0, 8).map(product =>//-8
                         <div className="product-card">
                             <Link to={`/sanpham/${product.Id}`} state={{ id: product.Id }} className="product-card-img">
 
-                                <img src="/assets/images/products/1.jpg" alt="item" />
+                                <img src={`${product.image.filter(i => i.Main === 1)[0]?.Content}`} alt="item" />
                                 {/* <Rating
                                     // name="size-large"
                                     value={5}

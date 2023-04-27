@@ -8,51 +8,103 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import './Payment.css'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
+import { userSelector } from '../../store/features/userSlice';
 // import "./selection"
 
 const validationSchema = z
     .object({
-        name: z.string().min(1, { message: "Name is required" }),
-        password: z
-            .string()
-            .min(6, { message: "Password must be atleast 6 characters" }),
+        fullname: z.string().min(1, { message: "Name is required" }),
+        // email: z.string().min(1, { message: "Email is required" }).email({
+        //     message: "Must be a valid email",
+        // }),
+        // phonenumber: z.string(),
+        phonenumber: z.string(),//.transform(data => Number(data))
+        // phonenumber: z.number().min(1, { message: "Name is required" }),
+
+        address: z.string().min(1, { message: "Name is required" }),
     })
     ;
 
+
 const Payment = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const {
+        Address,
+        Birthday,
+        Email,
+        Gender,
+        Id,
+        Is_active,
+        Name,
+        Password,
+        Phone_number,
+        Role,
+    } = useSelector(userSelector);
+
 
     const {
         register,
         handleSubmit,
         formState: { errors },
-        reset
+        reset,
+        setValue
     } = useForm({
         resolver: zodResolver(validationSchema),
     });
 
+    useEffect(() => {
+        setValue("fullname", Name);
+        setValue("phonenumber", Phone_number);
+        setValue("address", Address);
+
+    }, [])
+
+
     const onSubmit = (data) => {
-        // dispatch(loginUser(data));
+        const configData = {
+            id: Id,
+            isActive: Is_active,
+            name: data.fullname,
+            phoneNumber: data.phonenumber,
+            email: Email,
+            gender: Gender,
+            role: Role,
+            address: data.address,
+            birthday: Birthday
+        }
+
+        // dispatch(editUser(configData));
         console.log(data);
+
+
+        axios
+            .post(
+                "http://localhost/LTW_BE-dev/Controllers/EditCustomerController.php",
+                configData,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+            .then((res) => {
+                console.log("ffsdff", res.data);
+                if (res.data.isSuccess === true) {
+                    console.log("dispatch");
+                    // dispatch(editDataUser(data));
+                    // navigate("/sanpham");
+                }
+            })
+            .catch((err) => {
+                console.log("err", err)
+            });
+
     }
 
-    useEffect(() => {
-        var Parameter = {
-            url: './data.json',//Đường dẫn đến file chứa dữ liệu hoặc api do backend cung cấp
-            method: 'GET', //do backend cung cấp 
-            responseType: 'application/json', //kiểu Dữ liệu trả về do backend cung cấp
-        }
-        //gọi ajax = axios => nó trả về cho chúng ta là một promise
-        var promise = axios(Parameter);
-        //Xử lý khi request thành công
-        promise.then(function (result) {
-            console.log(result.data)
-        });
-
-    }, []);
 
 
 
@@ -73,6 +125,7 @@ const Payment = () => {
                                         id="fullname"
                                         placeholder=" "
                                         {...register("fullname")}
+                                    // value={Name}
                                     />
                                     <label>Họ và tên</label>
                                 </div>
@@ -93,6 +146,7 @@ const Payment = () => {
                                         name="phonenumber"
                                         placeholder=" "
                                         {...register("phonenumber")}
+                                    // value={Phone_number}
                                     />
                                     <label>Số điện thoại</label>
                                 </div>
@@ -112,6 +166,7 @@ const Payment = () => {
                                         name="address"
                                         placeholder=" "
                                         {...register("address")}
+                                    // value={Address}
                                     />
                                     <label>Địa chỉ</label>
                                 </div>
@@ -124,37 +179,17 @@ const Payment = () => {
 
 
 
-                            <div className="container">
-                                <div className="row justify-content-md-center p-2">
-                                    <div className="col-md-auto">
-                                        <select className="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm">
-                                            <option value="" selected>Chọn tỉnh thành</option>
-                                        </select>
 
-                                        <select className="form-select form-select-sm mb-3" id="district" aria-label=".form-select-sm">
-                                            <option value="" selected>Chọn quận huyện</option>
-                                        </select>
-
-                                        <select className="form-select form-select-sm" id="ward" aria-label=".form-select-sm">
-                                            <option value="" selected>Chọn phường xã</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
 
 
 
                         </div>
+
 
                         <button className="submit-btn" type="submit">
-                            Đăng nhập
+                            Thanh toán
                         </button>
-                        <div className="line">
-                        </div>
 
-                        <div className="navigator">
-                            Chưa có tài khoản? <Link to="/dangky">Đăng ký</Link>
-                        </div>
 
                     </form>
                 </div>
