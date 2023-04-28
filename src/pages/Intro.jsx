@@ -10,7 +10,6 @@ const Lin = () => {
         <Link to='/lienhe' className="btn-shop">Liên Hệ Ngay</Link>
     )
 }
-
 const Intro = () => {
     return (
         <>
@@ -24,4 +23,3 @@ const Intro = () => {
 
 export default Intro
 
-// style={{ marginTop: "8rem" }}

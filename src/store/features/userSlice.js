@@ -1,6 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-var axios = require("axios");
-
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   Address: "",

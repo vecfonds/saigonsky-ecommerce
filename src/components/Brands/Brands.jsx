@@ -27,26 +27,13 @@ const Brands = () => {
   return (
     <div id="brandsi">
       <div className="brandsi">
-        {/* <motion.div style={{ position: 'relative' }}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          animate={{ scale: [0, 1] }}
-
-          transition={{
-            duration: 3,
-            type: "spring",
-            times: [0, 1]
-          }} > */}
-
         <motion.div
           initial={offscreen}
           whileInView={onscreen}
           viewport={{ once: true }}
-
         >
           <div className="headeri">KINH DOANH CÁC THƯƠNG HIỆU NỔI TIẾNG</div>
         </motion.div>
-
 
         <div className="content-brandsi">
           <motion.div
@@ -57,14 +44,12 @@ const Brands = () => {
             <img src="/assets/images/brands/chic_land.jpg" alt="chic_land-Logo" />
           </motion.div>
 
-
           <motion.div
             initial={offbrand}
             whileInView={onbrand}
             viewport={{ once: true }}
           >
             <img src="/assets/images/brands/kk.jpg" alt="kk-Logo" />
-
           </motion.div>
 
           <motion.div
@@ -90,13 +75,7 @@ const Brands = () => {
           >
             <img src="/assets/images/brands/ivymoda.jpg" alt="ivymoda-Logo" />
           </motion.div>
-
-
-
-
-
         </div>
-        {/* </motion.div> */}
       </div>
     </div>
   )

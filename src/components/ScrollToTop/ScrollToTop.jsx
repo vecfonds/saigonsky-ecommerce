@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { IoHome } from "react-icons/io5";
-import { useLocation } from "react-router-dom";
-
 import "./ScrollToTop.css";
 
 const ScrollToTop = () => {
@@ -15,12 +13,6 @@ const ScrollToTop = () => {
             }
         });
     }, []);
-
-    // const { pathname } = useLocation();
-
-    // useEffect(() => {
-    //     goToTop();
-    // }, [pathname]);
 
     const goToTop = () => {
         window.scrollTo({

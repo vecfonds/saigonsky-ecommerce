@@ -1,42 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import './Products.css'
 import { motion } from "framer-motion"
-
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import Autocomplete from '@mui/material/Autocomplete';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
-
-import { purple } from '@mui/material/colors';
-
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
-
-import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Link, useNavigate } from 'react-router-dom';
-import { ButtonBase, Rating } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
+import { Rating } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { addImageProduct, loadDataProducts, productsSelector } from '../../store/features/productsSlice';
+import { loadDataProducts, productsSelector } from '../../store/features/productsSlice';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { favoriteSelector } from '../../store/features/FavoriteSlice';
@@ -59,7 +32,6 @@ const StyledRating = styled(Rating)({
 
 const Products = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate()
 
     const {
         dataFavorite
@@ -77,19 +49,6 @@ const Products = () => {
         }
     }
 
-    const [value, setValue] = React.useState(2);
-
-    const [product, setProduct] = React.useState('');
-
-    const handleChangeProduct = (event) => {
-        setProduct(event.target.value);
-    };
-
-    const [price, setPrice] = React.useState('');
-
-    const handleChangePrice = (event) => {
-        setPrice(event.target.value);
-    };
 
     useEffect(() => {
         axios
@@ -103,22 +62,16 @@ const Products = () => {
                 }
             )
             .then((res) => {
-                // res.data = JSON.parse(res.data);
-                console.log("ffsdff", res.data);
-
-                // const result = JSON.parse(res.data);
-                // console.log(result);
-                // setMessage(res.data.message);
+                // console.log("ffsdff", res.data);
                 if (res.data.isSuccess === true) {
-                    // console.log("ok", res.data.isSuccess);
-                    // navigate("/dangnhap");
-                    console.log("res.data.", res.data.data);
+
+                    // console.log("res.data.", res.data.data);
                     dispatch(loadDataProducts(res.data.data));
 
                 }
             })
             .catch((err) => {
-                console.log("err", err);
+                // console.log("err", err);
             });
 
     }, [])
@@ -128,17 +81,7 @@ const Products = () => {
         data
     } = useSelector(productsSelector);
 
-    console.log("data", data)
-
-    // useEffect(() => {
-    //     if (data) {
-    //         console.log("data addImageProduct", data)
-
-    //         dispatch(addImageProduct());
-    //     }
-
-    // }, [])
-
+    // console.log("data", data)
 
     const [q, setQ] = useState("");
     const [searchParam] = useState(["Name", "Type"]);
@@ -296,7 +239,6 @@ const Products = () => {
                             <Select
                                 sx={{ height: 40, padding: 0, margin: 0 }}
                                 value={filterParam}
-                                // onChange={handleChangeProduct}
                                 onChange={(e) => {
                                     setFilterParam(e.target.value);
                                 }}
@@ -315,11 +257,6 @@ const Products = () => {
                                 <MenuItem value={"Set bộ"}>Set bộ</MenuItem>
                                 <MenuItem value={"Áo Dài"}>Áo Dài</MenuItem>
                                 <MenuItem value={"Quần Jeans"}>Quần Jeans</MenuItem>
-
-
-
-                                {/* <MenuItem value={3}>Mới nhất</MenuItem>
-                                <MenuItem value={4}>Bán chạy nhất</MenuItem> */}
                             </Select>
                         </FormControl>
                     </div>
@@ -331,8 +268,6 @@ const Products = () => {
                         >
                             <Select
                                 sx={{ height: 40 }}
-                                // value={price}
-                                // onChange={handleChangePrice}
                                 value={sortParam}
                                 onChange={(e) => {
                                     setSortParam(e.target.value);
@@ -345,11 +280,8 @@ const Products = () => {
                                 </MenuItem>
                                 <MenuItem value={"Giá tăng dần"}>Giá tăng dần</MenuItem>
                                 <MenuItem value={"Giá giảm dần"}>Giá giảm dần</MenuItem>
-                                {/* <MenuItem value={"Mới nhất"}>Mới nhất</MenuItem>
-                                <MenuItem value={"Bán chạy nhất"}>Bán chạy nhất</MenuItem> */}
                             </Select>
                         </FormControl>
-
                     </div>
                 </div>
 
@@ -357,8 +289,6 @@ const Products = () => {
 
 
             <div className="product--details">
-
-
                 {search(dataFilter).map(product =>
                     <div className="product-card" key={product.Id}>
                         <Link to={`${product.Id}`} state={{ id: product.Id }} className="product-card-img">
@@ -379,17 +309,6 @@ const Products = () => {
                                 size="inherit"
                                 name="size-large"
                             />
-
-                            {/* <Rating
-                                // name="size-large"
-                                value={value}
-                                onChange={(event, newValue) => {
-                                    setValue(newValue);
-                                }}
-                                precision={0.1}
-                                readOnly
-                                sx={{ position: "absolute", right: "5px", top: "5px" }}
-                            /> */}
                             <div className="product-card-body">
                                 <Link to={`${product.Id}`} state={{ id: product.Id }} className="btn">MUA NGAY</Link>
                             </div>
@@ -400,36 +319,6 @@ const Products = () => {
                             <p className="price">Giá: {VND.format(product?.Price)}</p>
                         </div>
                     </div>)}
-
-
-
-
-                {/* {data.map(product =>
-                    <div className="product-card">
-                        <Link to='/chitietsanpham' className="product-card-img">
-                            <img src="/assets/images/products/1.jpg" alt="item" />
-                            <Rating
-                                // name="size-large"
-                                value={value}
-                                onChange={(event, newValue) => {
-                                    setValue(newValue);
-                                }}
-                                precision={0.1}
-                                readOnly
-                                sx={{ position: "absolute", right: "5px", top: "5px" }}
-                            />
-                            <div className="product-card-body">
-                                <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
-                            </div>
-                        </Link>
-                        <div className="product-card-detail">
-                            <Link to='/chitietsanpham' className="name">{product.Name}</Link>
-                            <p className="price">Giá: {product.Price}₫</p>
-                        </div>
-                    </div>)} */}
-
-
-
             </div >
         </div>
 

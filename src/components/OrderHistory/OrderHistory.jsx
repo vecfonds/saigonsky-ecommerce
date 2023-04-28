@@ -4,8 +4,6 @@ import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import { userSelector } from '../../store/features/userSlice';
 import axios from 'axios';
-import { shoppingCartSelector } from '../../store/features/shoppingCartSlice';
-import { productsSelector } from '../../store/features/productsSlice';
 
 const VND = new Intl.NumberFormat('vi-VN', {
     style: 'currency',
@@ -14,16 +12,8 @@ const VND = new Intl.NumberFormat('vi-VN', {
 
 const OrderHistory = () => {
     const {
-        Address,
-        Birthday,
-        Email,
-        Gender,
         Id,
-        Is_active,
         Name,
-        Password,
-        Phone_number,
-        Role,
     } = useSelector(userSelector);
 
     const navLinkClass = ({ isActive }) => {
@@ -47,22 +37,14 @@ const OrderHistory = () => {
                     }
                 )
                 .then((res) => {
-                    // res.data = JSON.parse(res.data);
-                    console.log("GetBill.php", res.data);
-                    // const result = JSON.parse(res.data);
-                    // console.log(result);
-                    // setMessage(res.data.message);
+                    // console.log("GetBill.php", res.data);
                     if (res.data.isSuccess === true) {
                         setDataOrderHistory(res.data.data);
-                        // console.log("ok", res.data.isSuccess);
-                        // navigate("/dangnhap");
-                        console.log("res.data.", res.data.data);
-                        // dispatch(loadDataProducts(res.data.data));
-
+                        // console.log("res.data.", res.data.data);
                     }
                 })
                 .catch((err) => {
-                    console.log("err", err);
+                    // console.log("err", err);
                 });
         }
 
@@ -71,26 +53,7 @@ const OrderHistory = () => {
 
     }, [Id])
 
-    const {
-        dataShoppingCart
-    } = useSelector(shoppingCartSelector);
-
-    const priceTotal = () => {
-        var sum = 0;
-
-        for (var i = 0; i < dataShoppingCart?.length; ++i) {
-            sum += dataShoppingCart[i]?.data.Price * dataShoppingCart[i]?.quantity;
-        }
-
-        return sum;
-    }
-
-
-    const {
-        data
-    } = useSelector(productsSelector);
-
-    console.log("dataOrderHistory", dataOrderHistory)
+    // console.log("dataOrderHistory", dataOrderHistory)
 
     return (
         <div id='order-history'>
@@ -123,7 +86,6 @@ const OrderHistory = () => {
                                     {bill.details?.map((product) => (
                                         <div className='product-cart-shopping'>
                                             <div className="product-cart-shopping-img">
-                                                {/* <img src={`${data.filter(item => item.Name === product.Name)[0].image.filter(i => i.Main === 1)[0]?.Content}`} alt="" /> */}
                                                 <img src={`${product.Image}`} alt="" />
 
                                             </div>
@@ -131,17 +93,12 @@ const OrderHistory = () => {
                                                 <h2 className="title">{product.Name}</h2>
                                                 <div className='subtitle'>
                                                     <p className="brand-name"><strong>Thương hiệu:</strong> {product.Album}</p>
-                                                    {/* <p className="product-code"><strong>Mã SP:  </strong> {product.data.Id}</p> */}
-
                                                     <p><strong>Phiên bản:</strong> {product.Size} / {product.Color}</p>
                                                 </div>
 
                                                 <div className="quantity-cart">
                                                     <div className="quantity-input">
-
-
                                                         <input className="quantity-input" type="text" value={product.Count} readOnly />
-
                                                     </div>
 
                                                 </div>

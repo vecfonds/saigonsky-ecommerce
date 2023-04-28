@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-var axios = require("axios");
+// var axios = require("axios");
 
 const initialState = {
   dataFavorite: [],
@@ -22,20 +22,20 @@ export const favoriteSlice = createSlice({
       return state;
     },
     addDataFavorite: (state, action) => {
-      console.log("addDataFavorite - action.payload", action.payload);
+      // console.log("addDataFavorite - action.payload", action.payload);
 
       state.dataFavorite.push(action.payload);
-      console.log("state", state);
+      // console.log("state", state);
       return state;
     },
     deleteDataFavorite: (state, action) => {
-      console.log("deleteDataFavorite - action.payload", action.payload);
+      // console.log("deleteDataFavorite - action.payload", action.payload);
 
       state.dataFavorite = state.dataFavorite.filter(
         (item) => item !== action.payload
       );
 
-      console.log("state", state);
+      // console.log("state", state);
       return state;
     },
   },

@@ -1,25 +1,15 @@
 import React, { useEffect } from 'react';
 import { motion } from "framer-motion"
-
 import Slider from "react-slick";
-import ProductCard from "./product";
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './NewProducts.css'
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadDataProducts, productsSelector } from '../../store/features/productsSlice';
-import { Link, useNavigate } from 'react-router-dom';
-import { Rating, Stack } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Rating } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { favoriteSelector } from '../../store/features/FavoriteSlice';
@@ -36,9 +26,6 @@ const StyledRating = styled(Rating)({
 
 const NewProducts = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-
     const {
         dataFavorite
     } = useSelector(favoriteSelector);
@@ -58,7 +45,6 @@ const NewProducts = () => {
         axios
             .get(
                 "http://localhost/LTW_BE-dev/Controllers/ShowProduct.php",
-
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -66,22 +52,14 @@ const NewProducts = () => {
                 }
             )
             .then((res) => {
-                // res.data = JSON.parse(res.data);
-                console.log("ffsdff", res.data);
-
-                // const result = JSON.parse(res.data);
-                // console.log(result);
-                // setMessage(res.data.message);
+                // console.log("ffsdff", res.data);
                 if (res.data.isSuccess === true) {
-                    // console.log("ok", res.data.isSuccess);
-                    // navigate("/dangnhap");
-                    console.log("res.data.", res.data.data);
+                    // console.log("res.data.", res.data.data);
                     dispatch(loadDataProducts(res.data.data));
-
                 }
             })
             .catch((err) => {
-                console.log("err", err);
+                // console.log("err", err);
             });
 
     }, [])
@@ -126,32 +104,6 @@ const NewProducts = () => {
         slidesToShow: 4,
         slidesToScroll: 4,
         initialSlide: 0,
-        // responsive: [
-        //     {
-        //         breakpoint: 1024,
-        //         settings: {
-        //             slidesToShow: 3,
-        //             slidesToScroll: 3,
-        //             infinite: true,
-        //             dots: true
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 768,
-        //         settings: {
-        //             slidesToShow: 2,
-        //             slidesToScroll: 2,
-        //             initialSlide: 2
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 480,
-        //         settings: {
-        //             slidesToShow: 1,
-        //             slidesToScroll: 1
-        //         }
-        //     }
-        // ]
         responsive: [
             {
                 breakpoint: 1280,
@@ -159,8 +111,6 @@ const NewProducts = () => {
                     slidesToShow: 3,
                     slidesToScroll: 3,
                     initialSlide: 3,
-
-                    // infinite: true,
                     dots: true
                 }
             },
@@ -235,15 +185,6 @@ const NewProducts = () => {
                             <Link to={`/sanpham/${product.Id}`} state={{ id: product.Id }} className="product-card-img">
 
                                 <img src={`${product.image.filter(i => i.Main === 1)[0]?.Content}`} alt="item" />
-                                {/* <Rating
-                                    // name="size-large"
-                                    value={5}
-                                    precision={0.1}
-                                    readOnly
-                                    sx={{ position: "absolute", right: "5px", top: "5px" }}
-                                /> */}
-
-
                                 <StyledRating
                                     // name="customized-color"
                                     defaultValue={0}
@@ -262,11 +203,6 @@ const NewProducts = () => {
                                     <Link to={`/sanpham/${product.Id}`} state={{ id: product.Id }} className="btn">MUA NGAY</Link>
                                 </div>
                             </Link>
-
-                            {/* <div className="product-card-detail">
-                                <Link to={`${product.Id}`} state={{ id: product.Id }} className="name">{product.Name}</Link>
-                                <p className="price">Giá: {product.Price}₫</p>
-                            </div> */}
                         </div>)}
                 </Slider>
             </motion.div>
@@ -276,22 +212,3 @@ const NewProducts = () => {
 }
 
 export default NewProducts
-
-
-// {slides.map((slide, index) => {
-//     return (
-//         <div key={index}>
-//             {/* <ProductCard imgSrc={slide.img} /> */}
-//             {/* <img src={slide.img} alt={`slide${index}`} height={400} /> */}
-//             <Card sx={{ maxWidth: 345, margin: "0 auto", objectFit: "cover" }}>
-//                 <CardMedia
-//                     component="img"
-//                     height="450"
-//                     // width="345"
-//                     image={slide.img}
-//                     alt={`slide${index}`}
-//                 />
-//             </Card>
-//         </div>
-//     );
-// })}

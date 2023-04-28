@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import './ProductDetail.css'
 import ImageGallery from 'react-image-gallery';
 import Table from '@mui/material/Table';
@@ -8,25 +8,19 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
 import { motion } from "framer-motion"
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Slider from "react-slick";
-
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { Card, CardMedia, Stack } from '@mui/material';
-import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadDataProducts, productsSelector } from '../../store/features/productsSlice';
-import axios from 'axios';
+import {  productsSelector } from '../../store/features/productsSlice';
 import { addDataFavorite, deleteDataFavorite, favoriteSelector } from '../../store/features/FavoriteSlice';
 import { addShoppingCart, shoppingCartSelector } from '../../store/features/shoppingCartSlice';
 import { ToastContainer, toast } from 'react-toastify';
@@ -36,9 +30,6 @@ const VND = new Intl.NumberFormat('vi-VN', {
     style: 'currency',
     currency: 'VND',
 });
-
-
-
 
 function createData(name, describe) {
     return { name, describe };
@@ -59,73 +50,14 @@ const sizes = [
 ]
 
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: 'var(--main-3) ',
-        color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-    },
-}));
-
-
 const ProductDetail = () => {
-    const location = useLocation();
     const params = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-
     const {
         data
     } = useSelector(productsSelector);
-
-
-
-    // useEffect(() => {
-    //     axios
-    //         .get(
-    //             "http://localhost/LTW_BE-dev/Controllers/ShowProduct.php",
-
-    //             {
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                 },
-    //             }
-    //         )
-    //         .then((res) => {
-    //             // res.data = JSON.parse(res.data);
-    //             console.log("ffsdff", res.data);
-
-    //             // const result = JSON.parse(res.data);
-    //             // console.log(result);
-    //             // setMessage(res.data.message);
-    //             if (res.data.isSuccess === true) {
-    //                 // console.log("ok", res.data.isSuccess);
-    //                 // navigate("/dangnhap");
-    //                 console.log("res.data.", res.data.data);
-    //                 dispatch(loadDataProducts(res.data.data));
-
-    //             }
-    //         })
-    //         .catch((err) => {
-    //             console.log("err", err);
-    //         });
-
-    // }, [])
-
-    // useEffect(() => {
-    //     // console.log("cc", data)
-
-    //     setDataProductDetail(data.filter(product => product.Id === params.productId)[0]);
-    // }, [params.productId, data]);
-
-    // console.log("dataProductDetail", dataProductDetail)
-    // console.log("location.state?.id", location.state?.id)
-    // console.log("params.productId", params.productId)
-
-
 
     const offscreen = { y: "1.5rem", opacity: 0 };
     const onscreen = {
@@ -139,22 +71,6 @@ const ProductDetail = () => {
     }
 
 
-
-    const slides = [
-        {
-            img: "/assets/images/products/1.jpg"
-        },
-        {
-            img: "/assets/images/products/2.jpg"
-        },
-        {
-            img: "/assets/images/products/3.jpg"
-        },
-        {
-            img: "/assets/images/products/1.jpg"
-        },
-    ];
-
     var settings = {
         dots: false,
         infinite: false,
@@ -162,32 +78,6 @@ const ProductDetail = () => {
         slidesToShow: 4,
         slidesToScroll: 4,
         initialSlide: 0,
-        // responsive: [
-        //     {
-        //         breakpoint: 1024,
-        //         settings: {
-        //             slidesToShow: 3,
-        //             slidesToScroll: 3,
-        //             infinite: true,
-        //             dots: true
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 768,
-        //         settings: {
-        //             slidesToShow: 2,
-        //             slidesToScroll: 2,
-        //             initialSlide: 2
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 480,
-        //         settings: {
-        //             slidesToShow: 1,
-        //             slidesToScroll: 1
-        //         }
-        //     }
-        // ]
         responsive: [
             {
                 breakpoint: 1280,
@@ -231,8 +121,6 @@ const ProductDetail = () => {
 
     const [color, setColor] = useState("Vàng");
 
-
-
     function handleChange(e) {
         var value = e.target.value.replace(/[^0-9]/, '');
         value = (value === '' ? 1 : value);
@@ -247,9 +135,6 @@ const ProductDetail = () => {
         setChecked(!checked);
     }
 
-
-    const [value, setValue] = React.useState(2);
-
     const StyledRating = styled(Rating)({
         '& .MuiRating-iconFilled': {
             color: '#ff6d75',
@@ -259,21 +144,17 @@ const ProductDetail = () => {
         },
     });
 
-
     const {
         dataFavorite
     } = useSelector(favoriteSelector);
 
-    console.log("dataFavorite", dataFavorite)
-
-
+    // console.log("dataFavorite", dataFavorite)
 
     const {
         dataShoppingCart
     } = useSelector(shoppingCartSelector);
 
-    console.log("dataShoppingCart", dataShoppingCart)
-
+    // console.log("dataShoppingCart", dataShoppingCart)
 
     function handleClickFavorite() {
         if (dataFavorite.filter(item => item === params.productId).length) {
@@ -324,9 +205,6 @@ const ProductDetail = () => {
             navigate("/thanhtoan");
         }
     }
-
-
-
 
     const images = [
         {
@@ -403,10 +281,6 @@ const ProductDetail = () => {
 
             <div className='productdetail-main'>
                 <div className="productdetail-left">
-                    {/* <div className="productdetail-left-img">
-                    <img src="/assets/images/products/2.jpg" alt="" />
-                </div> */}
-
                     <ImageGallery items={images}
                         thumbnailPosition="left"
                         showPlayButton={false}
@@ -414,7 +288,6 @@ const ProductDetail = () => {
                         showNav={false}
                         fullscreen
                     />
-
                 </div>
 
                 <div className="productdetail-right">
@@ -443,13 +316,11 @@ const ProductDetail = () => {
 
                     </motion.div>
 
-
                     <div className='subtitle'>
                         <p className="brand-name"><strong>Thương hiệu:</strong> {dataProductDetail?.Album}</p>
                         <p className="product-code"><strong>Mã SP:</strong> {params.productId}</p>
                     </div>
 
-                    {/* <p className="price">{parseInt(dataProductDetail?.Price)}₫</p> */}
                     <p className="price">{VND.format(dataProductDetail?.Price)}</p>
 
 
@@ -470,8 +341,6 @@ const ProductDetail = () => {
                             </div>
                         </div>
                     </div>
-
-
                     <div className="color">
 
                         <p><strong>Màu sắc:</strong> {color}</p>
@@ -502,8 +371,6 @@ const ProductDetail = () => {
                         </div>
                     </div>
 
-                    {/* <div className="btn">THÊM VÀO GIỎ HÀNG</div> */}
-                    {/* <Link to='/giohang' className="btn" onClick={() => dispatch(addShoppingCart({ data: dataProductDetail, size, color, quantity }))}>THÊM VÀO GIỎ HÀNG</Link> */}
                     <div className="btn" onClick={handleAddCart}>THÊM VÀO GIỎ HÀNG</div>
                     <div className="btn" onClick={handlePayment}>MUA NGAY</div>
 
@@ -553,38 +420,10 @@ const ProductDetail = () => {
                     <Slider {...settings}
                         className='similar-product-slider'
                     >
-                        {/* {slides.map((slide, index) => {
-                            return (
-                                <div key={index}>
-                                    <div className="product-card">
-                                        <Link to='/chitietsanpham' className="product-card-img">
-                                            <img src={slide.img} alt={`slide${index}`} />
-                                            <div className="product-card-body">
-                                                <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
-                                            </div>
-                                        </Link>
-                                        <div className="product-card-detail">
-                                            <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
-                                            <p className="price">Giá: 600.000₫</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        })} */}
                         {data.filter(item => item.Type === dataProductDetail?.Type && item.Id !== params.productId).slice(0, 4).map(product =>
                             <div className="product-card">
                                 <Link to={`/sanpham/${product.Id}`} state={{ id: product.Id }} className="product-card-img">
-
                                     <img src={`${product.image.filter(i => i.Main === 1)[0]?.Content}`} alt="item" />
-                                    {/* <Rating
-                                    // name="size-large"
-                                    value={5}
-                                    precision={0.1}
-                                    readOnly
-                                    sx={{ position: "absolute", right: "5px", top: "5px" }}
-                                /> */}
-
-
                                     <StyledRating
                                         // name="customized-color"
                                         defaultValue={0}
@@ -611,61 +450,6 @@ const ProductDetail = () => {
                                 </div>
                             </div>)}
                     </Slider>
-
-                    {/* <div className="product--details">
-                        <div className="product-card">
-                            <Link to='/chitietsanpham' className="product-card-img">
-                                <img src="/assets/images/products/2.jpg" alt="item" />
-                                <div className="product-card-body">
-                                    <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
-                                </div>
-                            </Link>
-                            <div className="product-card-detail">
-                                <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
-                                <p className="price">Giá: 600.000₫</p>
-                            </div>
-                        </div>
-
-                        <div className="product-card">
-                            <Link to='/chitietsanpham' className="product-card-img">
-                                <img src="/assets/images/products/2.jpg" alt="item" />
-                                <div className="product-card-body">
-                                    <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
-                                </div>
-                            </Link>
-                            <div className="product-card-detail">
-                                <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
-                                <p className="price">Giá: 600.000₫</p>
-                            </div>
-                        </div>
-
-                        <div className="product-card">
-                            <Link to='/chitietsanpham' className="product-card-img">
-                                <img src="/assets/images/products/2.jpg" alt="item" />
-                                <div className="product-card-body">
-                                    <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
-                                </div>
-                            </Link>
-                            <div className="product-card-detail">
-                                <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
-                                <p className="price">Giá: 600.000₫</p>
-                            </div>
-                        </div>
-
-                        <div className="product-card">
-                            <Link to='/chitietsanpham' className="product-card-img">
-                                <img src="/assets/images/products/2.jpg" alt="item" />
-                                <div className="product-card-body">
-                                    <Link to='/chitietsanpham' className="btn">MUA NGAY</Link>
-                                </div>
-                            </Link>
-                            <div className="product-card-detail">
-                                <Link to='/chitietsanpham' className="name">Đầm hồng</Link>
-                                <p className="price">Giá: 600.000₫</p>
-                            </div>
-                        </div>
-                    </div> */}
-
                 </motion.div>
             </div>
         </div>

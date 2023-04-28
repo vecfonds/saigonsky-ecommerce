@@ -1,6 +1,5 @@
 import React from 'react'
 import './SubNews.css'
-
 import { motion } from "framer-motion"
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';

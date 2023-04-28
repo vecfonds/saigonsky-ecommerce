@@ -40,13 +40,7 @@ const notifyWarning = (text) => toast.warning(text, {
 const validationSchema = z
     .object({
         fullname: z.string().min(1, { message: "Name is required" }),
-        // email: z.string().min(1, { message: "Email is required" }).email({
-        //     message: "Must be a valid email",
-        // }),
-        // phonenumber: z.string(),
-        phonenumber: z.string().min(1, { message: "Phone number is required" }),//.transform(data => Number(data))
-        // phonenumber: z.number().min(1, { message: "Name is required" }),
-
+        phonenumber: z.string().min(1, { message: "Phone number is required" }),
         address: z.string().min(1, { message: "Address is required" }),
         password: z
             .string()
@@ -61,14 +55,6 @@ const validationSchema = z
         path: ["confirmPassword"],
         message: "Password don't match",
     });
-// .superRefine(({ confirmPassword, password }, ctx) => {
-//     if (confirmPassword !== password) {
-//       ctx.addIssue({
-//         code: "custom",
-//         message: "The passwords did not match"
-//       });
-//     }
-//   });
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -84,19 +70,11 @@ const Signup = () => {
         resolver: zodResolver(validationSchema),
     });
 
-    const [message, setMessage] = useState("");
+    // const [message, setMessage] = useState("");
 
 
     const onSubmit = (data) => {
-        // console.log(typeof (data.phonenumber));
-        // try {
-        //     const validatedForm = validationSchema.parse(data);
-        //     console.log(validatedForm);
-        // } catch (err) {
-        //     console.log(err);
-        // }
-
-        console.log(data)
+        // console.log(data)
 
         axios
             .post(
@@ -114,19 +92,10 @@ const Signup = () => {
                 }
             )
             .then((res) => {
-                // res.data = JSON.parse(res.data);
-                console.log("ffsdff", res.data);
-
-                // const result = JSON.parse(res.data);
-                // console.log(result);
-
-                setMessage(res.data.message);
+                // console.log("ffsdff", res.data);
                 // setMessage(res.data.message);
                 if (res.data.isSuccess === true) {
-                    // console.log("ok", res.data.isSuccess);
-
                     notifySuccess(res.data.message);
-                    // navigate("/dangnhap");
                     setTimeout(() => { navigate("/dangnhap"); }, 2000)
                 }
                 else {
@@ -134,26 +103,11 @@ const Signup = () => {
                 }
             })
             .catch((err) => {
-                console.log("err", err);
+                // console.log("err", err);
             });
 
 
     }
-
-    // const handleSubmit = () => {
-
-
-
-    //     function ValidateEmail(mail) {
-    //         // if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-    //         //   return (true)
-    //         // }
-    //         // return (false)
-
-    //         return !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
-    //     }
-    // }
-
     return (
         <div className="login-container">
 
@@ -165,34 +119,13 @@ const Signup = () => {
                     </div>
                     <div className="container_right">
                         <div className="logo">
-                            {/* <img src={"/assets/images/logo-white-removebg-preview.png"} alt="" /> */}
                         </div>
-
-
-                        {/* <form action="/" className="form" method="post" onSubmit={() => handleSubmit()}> */}
                         <form className="form" onSubmit={handleSubmit(onSubmit)}>
 
                             <div className="form-inner">
                                 <div className="welcome">
                                     <h1 className="text">Đăng ký</h1>
                                 </div>
-
-                                {/* <div className="form-group">
-                                <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" id="username" name="username" required />
-                                <label>UserName</label>
-                            </div> */}
-
-                                {/* <div className="form-group">
-                                    <input placeholder=" "
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        type="text"
-                                        name="email"
-                                        required
-                                    />
-                                    <label>Email</label>
-                                </div> */}
-
 
                                 <div className="form-groupS">
                                     <div className="form-group">
@@ -212,30 +145,6 @@ const Signup = () => {
                                     )}
                                 </div>
 
-
-                                {/* <div className="form-groupS">
-                                    <div className="form-group">
-                                        <input
-                                            autoComplete="off"
-                                            type="email"
-                                            name="email"
-                                            placeholder=" "
-                                            {...register("email")}
-                                        />
-                                        <label>Email</label>
-                                    </div>
-                                    {errors.email && (
-                                        <p className="textDanger">
-                                            {errors.email?.message}
-                                        </p>
-                                    )}
-                                </div> */}
-
-                                {/* <div className="form-group">
-                                    <input placeholder=" " value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} type="tel" name="phonenumber" required />
-                                    <label>Phone number</label>
-                                </div> */}
-
                                 <div className="form-groupS">
                                     <div className="form-group">
                                         <input
@@ -253,12 +162,6 @@ const Signup = () => {
                                         </p>
                                     )}
                                 </div>
-                                {/* 
-                                <div className="form-group">
-                                    <input placeholder=" " value={address} onChange={(e) => setAddress(e.target.value)} type="text" name="address" required />
-                                    <label>Address</label>
-                                </div> */}
-
 
                                 <div className="form-groupS">
                                     <div className="form-group">
@@ -278,34 +181,7 @@ const Signup = () => {
                                     )}
                                 </div>
 
-
-                                {/* <div className="form-group">
-                                    <input placeholder=" " value={birthday} onChange={(e) => setBirthday(e.target.value)} type="date" name="birthday" required />
-                                    <label>Birthday</label>
-                                </div> */}
-
-                                {/* <div className="form-groupS">
-                                    <div className="form-group">
-                                        <input
-                                            autoComplete="off"
-                                            type="date"
-                                            name="birthday"
-                                            placeholder=" "
-                                            {...register("birthday")}
-                                        />
-                                        <label>Ngày sinh</label>
-                                    </div>
-                                    {errors.birthday && (
-                                        <p className="textDanger">
-                                            {errors.birthday?.message}
-                                        </p>
-                                    )}
-                                </div> */}
-
-
                                 <div className="form-groupP">
-
-
                                     <div className="form-group2">
                                         <div className="pass-box">
                                             <input placeholder=" "
@@ -328,18 +204,6 @@ const Signup = () => {
                                         </p>
                                     )}
                                 </div>
-
-
-
-                                {/* <div className="form-group2">
-                                    <div className="pass-box">
-                                        <input placeholder=" " value={confirm} onChange={(e) => setConfirm(e.target.value)} type="password" id="confirm_password" name="confirm_password" required minLength={8} maxLength={20} />
-                                        <label>Confirm Password</label>
-                                        <div className="eye" onClick={() => setHiddenConfirmPwd(!hiddenConfirmPwd)}>
-                                            <i className={hiddenConfirmPwd ? "fa fa-eye" : "fa fa-eye-slash"}></i>
-                                        </div>
-                                    </div>
-                                </div> */}
 
                                 <div className="form-groupP">
 
@@ -385,8 +249,6 @@ const Signup = () => {
                                 </div>
 
                             </div>
-
-
 
 
                             <button className="submit-btn" type="submit">Gửi</button>

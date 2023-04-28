@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-var axios = require("axios");
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   dataShoppingCart: [],
@@ -22,13 +21,11 @@ export const shoppingCartSlice = createSlice({
       return state;
     },
     addShoppingCart: (state, action) => {
-      // console.log("addShoppingCart - action.payload", action.payload);
       state.dataShoppingCart.push(action.payload);
-      // console.log("state", state);
       return state;
     },
     deleteShoppingCart: (state, action) => {
-      console.log("deleteShoppingCart - action.payload", action.payload);
+      // console.log("deleteShoppingCart - action.payload", action.payload);
 
       state.dataShoppingCart = state.dataShoppingCart.filter(
         (item) =>
@@ -37,11 +34,11 @@ export const shoppingCartSlice = createSlice({
           item.size !== action.payload.size
       );
 
-      console.log("state", state);
+      // console.log("state", state);
       return state;
     },
     setQuantityProduct: (state, action) => {
-      console.log("setQuantityProduct ", action.payload);
+      // console.log("setQuantityProduct ", action.payload);
 
       state.dataShoppingCart.filter(
         (item) =>

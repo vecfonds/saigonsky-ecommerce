@@ -24,21 +24,13 @@ const notify = (text) => toast.success(text, {
 const validationSchema = z
     .object({
         fullname: z.string().min(1, { message: "Name is required" }),
-        // email: z.string().min(1, { message: "Email is required" }).email({
-        //     message: "Must be a valid email",
-        // }),
-        // phonenumber: z.string(),
         phonenumber: z.string().min(10, { message: "Số điện thoại phải ít nhất 10 chữ số" }),
-        // phonenumber: z.number().min(1, { message: "Name is required" }),
-
         address: z.string().min(1, { message: "Name is required" }),
     })
     ;
 
 
 const PersonalInfomation = () => {
-
-    // const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const {
@@ -49,17 +41,14 @@ const PersonalInfomation = () => {
         Id,
         Is_active,
         Name,
-        Password,
         Phone_number,
         Role,
     } = useSelector(userSelector);
-
 
     const {
         register,
         handleSubmit,
         formState: { errors },
-        reset,
         setValue
     } = useForm({
         resolver: zodResolver(validationSchema),
@@ -85,9 +74,7 @@ const PersonalInfomation = () => {
             address: data.address,
             birthday: Birthday
         }
-
-        // dispatch(editUser(configData));
-        console.log(data);
+        // console.log(data);
 
 
         axios
@@ -101,16 +88,15 @@ const PersonalInfomation = () => {
                 }
             )
             .then((res) => {
-                console.log("ffsdff", res.data);
+                // console.log("ffsdff", res.data);
                 if (res.data.isSuccess === true) {
-                    console.log("dispatch");
+                    // console.log("dispatch");
                     dispatch(editDataUser(data));
-                    // navigate("/sanpham");
                     notify("Cập nhật thông tin thành công!");
                 }
             })
             .catch((err) => {
-                console.log("err", err)
+                // console.log("err", err)
             });
 
     }
@@ -122,13 +108,7 @@ const PersonalInfomation = () => {
 
     return (
         <div id='personal-information'>
-            {/* <div className="hello">
-                <h1>Xin chào</h1>
-                <h1>Tiến Dũng</h1>
-            </div> */}
             <ToastContainer />
-
-
             <div className="headeri">Xin chào {Name}</div>
             <div className="personal-information">
                 <div className="personal-information-left">
@@ -211,21 +191,10 @@ const PersonalInfomation = () => {
                                     </p>
                                 )}
                             </div>
-
-
-
-
-
-
-
                         </div>
-
-
                         <button className="submit-btn" type="submit">
                             Lưu
                         </button>
-
-
                     </form>
                 </div>
             </div>

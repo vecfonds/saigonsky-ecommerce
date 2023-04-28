@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
-
-import TextField from '@mui/material/TextField';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
 import './Payment.css'
 import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
@@ -14,10 +9,7 @@ import { userSelector } from '../../store/features/userSlice';
 import { FormControl, MenuItem, Select } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { clearDataShoppingCart, deleteShoppingCart, setQuantityProduct, shoppingCartSelector } from '../../store/features/shoppingCartSlice';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { clearDataShoppingCart, shoppingCartSelector } from '../../store/features/shoppingCartSlice';
 
 const VND = new Intl.NumberFormat('vi-VN', {
     style: 'currency',
@@ -62,33 +54,20 @@ const notifyWarning = (text) => toast.warning(text, {
 const validationSchema = z
     .object({
         fullname: z.string().min(1, { message: "Name is required" }),
-        // email: z.string().min(1, { message: "Email is required" }).email({
-        //     message: "Must be a valid email",
-        // }),
-        // phonenumber: z.string(),
-        phonenumber: z.string(),//.transform(data => Number(data))
-        // phonenumber: z.number().min(1, { message: "Name is required" }),
-
+        phonenumber: z.string().min(10, { message: "Số điện thoại phải ít nhất 10 chữ số" }),
         address: z.string().min(1, { message: "Name is required" }),
     })
     ;
 
 
 const Payment = () => {
-    // const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const {
         Address,
-        Birthday,
-        Email,
-        Gender,
         Id,
-        Is_active,
         Name,
-        Password,
         Phone_number,
-        Role,
     } = useSelector(userSelector);
 
 
@@ -96,7 +75,6 @@ const Payment = () => {
         register,
         handleSubmit,
         formState: { errors },
-        reset,
         setValue
     } = useForm({
         resolver: zodResolver(validationSchema),
@@ -106,10 +84,7 @@ const Payment = () => {
         setValue("fullname", Name);
         setValue("phonenumber", Phone_number);
         setValue("address", Address);
-
     }, [])
-
-
 
 
     const [method, setMethod] = useState("Phương thức thanh toán");
@@ -118,7 +93,7 @@ const Payment = () => {
         dataShoppingCart
     } = useSelector(shoppingCartSelector);
 
-    console.log("dataShoppingCart", dataShoppingCart);
+    // console.log("dataShoppingCart", dataShoppingCart);
 
     const onSubmit = (data) => {
         if (method === "Phương thức thanh toán") {
@@ -140,32 +115,9 @@ const Payment = () => {
                 })
             }
 
-            console.log("configData", configData)
+            // console.log("configData", configData)
 
-            // const configData = {
-            //     method: "Offline",
-            //     note: null,
-            //     customerID: "fbb9e56e-cd26-42aa-a07d-5b3cb3e88815",
-            //     product: [
-            //         {
-            //             id: "219971e4-a0c4-4699-bbed-5ce8ba211175",
-            //             count: 1,
-            //             size: "2",
-            //             color: "pink",
-            //             rate: 2
-            //         },
-            //         {
-            //             id: "420f1322-8d35-4290-b909-6b1f7abc739f",
-            //             count: 2,
-            //             size: "3",
-            //             color: "yellow",
-            //             rate: 4
-            //         }
-            //     ]
-            // }
-
-            // dispatch(editUser(configData));
-            console.log(data);
+            // console.log(data);
 
 
             axios
@@ -174,27 +126,24 @@ const Payment = () => {
                     configData,
                 )
                 .then((res) => {
-                    console.log("CreateBill.php", res.data);
-                    setMessage(res.data.message);
+                    // console.log("CreateBill.php", res.data);
+                    // setMessage(res.data.message);
                     if (res.data.isSuccess === true) {
-                        console.log("dispatch");
+                        // console.log("dispatch");
                         dispatch(clearDataShoppingCart());
                         notifySuccess(res.data.message);
-                        // dispatch(editDataUser(data));
-                        // navigate("/sanpham");
-
                     }
                     else {
                         notifyError(res.data.message);
                     }
                 })
                 .catch((err) => {
-                    console.log("err", err)
+                    // console.log("err", err)
                 });
         }
 
     }
-    const [message, setMessage] = useState("");
+    // const [message, setMessage] = useState("");
 
     const priceTotal = () => {
         var sum = 0;
@@ -275,15 +224,8 @@ const Payment = () => {
                                 )}
                             </div>
 
-
-
-
-
-
-
                         </div>
                         <div className="form-sort">
-                            {/* <p>Sản phẩm:</p> */}
                             <FormControl sx={{
                                 m: 1, width: "100%", padding: 0, margin: 0,
                                 borderColor: "var(--main-3)!important",
@@ -297,7 +239,6 @@ const Payment = () => {
                                         borderColor: "var(--main-3)!important",
                                     }}
                                     value={method}
-                                    // onChange={handleChangeProduct}
                                     onChange={(e) => {
                                         setMethod(e.target.value);
                                     }}
@@ -314,20 +255,9 @@ const Payment = () => {
                                 </Select>
                             </FormControl>
                         </div>
-
-
-                        {/* {message &&
-                            <p className="textDanger" style={{ textAlign: "center" }}>
-                                {message}
-                            </p>} */}
-
-
-
                         <button className="submit-btn" type="submit">
                             Thanh toán
                         </button>
-
-
                     </form>
                 </div>
 
@@ -338,7 +268,8 @@ const Payment = () => {
                     <div className='mobile-shoppingcart'>
                         <div className='mobile-shoppingcart-center'>
                             {dataShoppingCart.map((product) => (
-                                <div className='product-cart-shopping'>
+                                <div className='product-cart-shopping'
+                                    key={`${product.data.Id}-${product.color}-${product.size}`}>
                                     <div className="product-cart-shopping-img">
                                         <img src={`${product.data.image.filter(i => i.Main === 1)[0]?.Content}`} alt="" />
                                     </div>
@@ -346,17 +277,12 @@ const Payment = () => {
                                         <h2 className="title">{product.data.Name}</h2>
                                         <div className='subtitle'>
                                             <p className="brand-name"><strong>Thương hiệu:</strong> {product.data.Album}</p>
-                                            {/* <p className="product-code"><strong>Mã SP:  </strong> {product.data.Id}</p> */}
-
                                             <p><strong>Phiên bản:</strong> {product.size} / {product.color}</p>
                                         </div>
 
                                         <div className="quantity-cart">
                                             <div className="quantity-input">
-
-
                                                 <input className="quantity-input" type="text" value={product.quantity} readOnly />
-
                                             </div>
 
                                         </div>
@@ -372,8 +298,6 @@ const Payment = () => {
                                 <span className="total-money-title">Tổng tiền</span>
                                 <span className="price total-money-main">{VND.format(priceTotal())}</span>
                             </p>
-
-
                         </div>
                     </div>
 

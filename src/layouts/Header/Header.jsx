@@ -1,50 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-// import "../App.css";
+import { Link, NavLink } from "react-router-dom";
 import "./Header.css"
-// import MobileHeader from "./MobileHeader";
-
-
-
-
-
-
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
-import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
-import ViewInArIcon from '@mui/icons-material/ViewInAr';
-import StarPurple500SharpIcon from '@mui/icons-material/StarPurple500Sharp';
 import HomeSharpIcon from '@mui/icons-material/HomeSharp';
-import SavingsSharpIcon from '@mui/icons-material/SavingsSharp';
-import GTranslateSharpIcon from '@mui/icons-material/GTranslateSharp';
 import CategoryIcon from '@mui/icons-material/Category';
-import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
-
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import ListItem from '@mui/material/ListItem';
-import Paper from '@mui/material/Paper';
-import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
 import {
     Link as RouterLink,
-    Route,
-    Routes,
-    MemoryRouter,
     useLocation,
 } from 'react-router-dom';
-import { StaticRouter } from 'react-router-dom/server';
 import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import { useDispatch, useSelector } from "react-redux";
@@ -76,16 +44,7 @@ function Header() {
     };
 
     const {
-        Address,
-        Birthday,
-        Email,
-        Gender,
-        Id,
-        Is_active,
         Name,
-        Password,
-        Phone_number,
-        Role,
     } = useSelector(userSelector);
 
     useEffect(() => {
@@ -117,22 +76,6 @@ function Header() {
         }
     }, []);
 
-    // useEffect(() => {
-    //     window.onscroll = function () { scrollFunction() };
-
-    //     function scrollFunction() {
-    //         if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
-    //             document.getElementById("topnav").style.background = "linear-gradient(to right, var(--primary-colorBlue1), var(--primary-colorBlue2), var(--primary-colorBlue1))";
-    //             // document.getElementById("topnav").style.transition = "0.4";
-    //         } else {
-    //             document.getElementById("topnav").style.background = "rgba(0, 0, 0, 0.0)";
-    //             // document.getElementById("topnav").style.transition = "0.4";
-
-    //         }
-    //     }
-    // }, []);
-
-
 
     function MobileHeader() {
         return (
@@ -151,9 +94,7 @@ function Header() {
                 }
             >
                 <ListItemButton onClick={handleChecked}
-                    //  component="a" href='/'
                     component={RouterLink} to='/'
-
                 >
                     <ListItemIcon>
                         <HomeSharpIcon />
@@ -207,7 +148,6 @@ function Header() {
                     </ListItemIcon>
                     <ListItemText primary="GIỎ HÀNG" />
                 </ListItemButton>
-
                 {
                     Name && <>
                         <ListItemButton onClick={handleChecked}
@@ -311,15 +251,9 @@ function Header() {
                 <NavLink to="/lienhe" className={navLinkClass}>
                     Liên Hệ
                 </NavLink>
-                {/* <a href="#" className="active">Home</a>
-                <a href="#">Products</a>
-                <a href="#">Category</a>
-                <a href="#">Contact</a> */}
             </nav>
 
             <div className="login">
-                {/* <!-- <a href="">Log in</a>
-                    <a href="">Sign up</a> --> */}
                 <div className="btn-log"><Link to='/giohang'><LocalMallOutlinedIcon />Giỏ hàng</Link></div>
                 <div className="btn-log btn-taikhoan"><Link><AccountCircleSharpIcon />{Name.split(" ").reverse().slice(0, 2).reverse().join(" ") || Name || "Tài khoản"}
                     <ul className='taikhoan'>
@@ -348,7 +282,6 @@ function Header() {
                 {/* <AccountCircleSharpIcon />
                 <LocalMallOutlinedIcon /> */}
             </div>
-
             <div className="nav__btn">
                 <div className="frame">
                     <div className="center">
@@ -361,7 +294,6 @@ function Header() {
                     </div>
                 </div>
             </div>
-
 
             <label htmlFor="nav__input" className="nav__overlay" onClick={handleChecked}></label>
 
