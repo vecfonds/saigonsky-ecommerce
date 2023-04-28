@@ -47,6 +47,16 @@ const notifyError = (text) => toast.error(text, {
     theme: "light",
 });
 
+const notifyWarning = (text) => toast.warning(text, {
+    position: "bottom-left",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+});
 
 
 const validationSchema = z
@@ -111,72 +121,77 @@ const Payment = () => {
     console.log("dataShoppingCart", dataShoppingCart);
 
     const onSubmit = (data) => {
-        const configData = {
-            method,
-            note: data.address,
-            customerID: Id,
-            product: dataShoppingCart.map(product => {
-                return {
-                    id: product.data.Id,
-                    count: product.quantity,
-                    size: product.size,
-                    color: product.color,
-                    rate: 1
-                }
-            })
+        if (method === "Phương thức thanh toán") {
+            notifyWarning("Bạn cần chọn phương thức thanh toán");
+
+        } else {
+            const configData = {
+                method,
+                note: data.address,
+                customerID: Id,
+                product: dataShoppingCart.map(product => {
+                    return {
+                        id: product.data.Id,
+                        count: product.quantity,
+                        size: product.size,
+                        color: product.color,
+                        rate: 1
+                    }
+                })
+            }
+
+            console.log("configData", configData)
+
+            // const configData = {
+            //     method: "Offline",
+            //     note: null,
+            //     customerID: "fbb9e56e-cd26-42aa-a07d-5b3cb3e88815",
+            //     product: [
+            //         {
+            //             id: "219971e4-a0c4-4699-bbed-5ce8ba211175",
+            //             count: 1,
+            //             size: "2",
+            //             color: "pink",
+            //             rate: 2
+            //         },
+            //         {
+            //             id: "420f1322-8d35-4290-b909-6b1f7abc739f",
+            //             count: 2,
+            //             size: "3",
+            //             color: "yellow",
+            //             rate: 4
+            //         }
+            //     ]
+            // }
+
+            // dispatch(editUser(configData));
+            console.log(data);
+
+
+            axios
+                .post(
+                    "http://localhost/LTW_BE-dev/Controllers/CreateBill.php",
+                    configData,
+                )
+                .then((res) => {
+                    console.log("CreateBill.php", res.data);
+                    setMessage(res.data.message);
+                    if (res.data.isSuccess === true) {
+                        console.log("dispatch");
+                        dispatch(clearDataShoppingCart());
+                        notifySuccess(res.data.message);
+                        // dispatch(editDataUser(data));
+                        // navigate("/sanpham");
+
+                    }
+                    else {
+                        notifyError(res.data.message);
+                    }
+                })
+                .catch((err) => {
+                    console.log("err", err)
+                });
         }
-
-        console.log("configData", configData)
-
-        // const configData = {
-        //     method: "Offline",
-        //     note: null,
-        //     customerID: "fbb9e56e-cd26-42aa-a07d-5b3cb3e88815",
-        //     product: [
-        //         {
-        //             id: "219971e4-a0c4-4699-bbed-5ce8ba211175",
-        //             count: 1,
-        //             size: "2",
-        //             color: "pink",
-        //             rate: 2
-        //         },
-        //         {
-        //             id: "420f1322-8d35-4290-b909-6b1f7abc739f",
-        //             count: 2,
-        //             size: "3",
-        //             color: "yellow",
-        //             rate: 4
-        //         }
-        //     ]
-        // }
-
-        // dispatch(editUser(configData));
-        console.log(data);
-
-
-        axios
-            .post(
-                "http://localhost/LTW_BE-dev/Controllers/CreateBill.php",
-                configData,
-            )
-            .then((res) => {
-                console.log("CreateBill.php", res.data);
-                setMessage(res.data.message);
-                if (res.data.isSuccess === true) {
-                    console.log("dispatch");
-                    dispatch(clearDataShoppingCart());
-                    notifySuccess(res.data.message);
-                    // dispatch(editDataUser(data));
-                    // navigate("/sanpham");
-
-                }
-                else {
-                    notifyError(res.data.message);
-                }
-            })
-            .catch((err) => {
-                console.log("err", err)
-            });
 
     }
     const [message, setMessage] = useState("");

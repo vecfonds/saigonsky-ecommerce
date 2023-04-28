@@ -315,6 +315,15 @@ const ProductDetail = () => {
         }
     }
 
+    function handlePayment() {
+        if (dataShoppingCart.filter(item => item.data.Id === dataProductDetail.Id && item.color === color && item.size === size).length) {
+            notify("Sản phẩm này đã có trong giỏ hàng!");
+        }
+        else {
+            dispatch(addShoppingCart({ data: dataProductDetail, size, color, quantity }))
+            navigate("/thanhtoan");
+        }
+    }
 
 
 
@@ -496,7 +505,7 @@ const ProductDetail = () => {
                     {/* <div className="btn">THÊM VÀO GIỎ HÀNG</div> */}
                     {/* <Link to='/giohang' className="btn" onClick={() => dispatch(addShoppingCart({ data: dataProductDetail, size, color, quantity }))}>THÊM VÀO GIỎ HÀNG</Link> */}
                     <div className="btn" onClick={handleAddCart}>THÊM VÀO GIỎ HÀNG</div>
-                    <div className="btn" onClick={() => navigate('/thanhtoan')}>MUA NGAY</div>
+                    <div className="btn" onClick={handlePayment}>MUA NGAY</div>
 
                     <TableContainer component={Paper}>
                         <Table >

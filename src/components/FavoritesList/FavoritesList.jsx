@@ -16,6 +16,11 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import './FavoritesList.css'
 
+const VND = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+});
+
 const StyledRating = styled(Rating)({
     '& .MuiRating-iconFilled': {
         color: '#ff6d75',
@@ -184,7 +189,7 @@ const FavoritesList = () => {
 
                                 <div className="product-card-detail">
                                     <Link to={`/sanpham/${product.Id}`} state={{ id: product.Id }} className="name">{product.Name}</Link>
-                                    <p className="price">Giá: {product.Price}₫</p>
+                                    <p className="price">Giá: {VND.format(product.Price)}</p>
                                 </div>
                             </div>)}
 
