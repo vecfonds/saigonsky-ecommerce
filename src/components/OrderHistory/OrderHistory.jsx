@@ -128,14 +128,14 @@ const OrderHistory = () => {
                         </div>
 
                         <div className="bill-day">
-                            Ngày đặt hàng: 17/3/2001
+                            Ngày đặt hàng: 17/3/2023
                         </div>
 
 
                         <div className="total-money">
                             <p>
                                 <span className="total-money-title">Tổng tiền</span>
-                                <span className="price total-money-main">{VND.format(19000)}</span>
+                                <span className="price total-money-main">{VND.format(3900000)}</span>
                             </p>
 
 

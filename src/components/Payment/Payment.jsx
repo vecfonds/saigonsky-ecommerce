@@ -164,6 +164,15 @@ const Payment = () => {
     }
     const [message, setMessage] = useState("");
 
+    const priceTotal = () => {
+        var sum = 0;
+
+        for (var i = 0; i < dataShoppingCart?.length; ++i) {
+            sum += dataShoppingCart[i]?.data.Price * dataShoppingCart[i]?.quantity;
+        }
+
+        return sum;
+    }
 
     return (
         <div id='payment'>
@@ -326,7 +335,16 @@ const Payment = () => {
                                 </div>
                             ))}
                         </div>
+                        <div className="total-money">
+                            <p>
+                                <span className="total-money-title">Tổng tiền</span>
+                                <span className="price total-money-main">{VND.format(priceTotal())}</span>
+                            </p>
+
+
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
