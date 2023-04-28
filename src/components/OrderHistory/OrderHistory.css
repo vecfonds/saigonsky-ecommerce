@@ -3,6 +3,28 @@
     min-height: calc(100vh - 11rem);
 }
 
+#order-history .mobile-shoppingcart {
+    display: block;
+    /* padding: 0 10%; */
+}
+
+#order-history .mobile-shoppingcart-center>.product-cart-shopping {
+    width: 100%;
+    min-width: auto;
+}
+
+
+.bill {
+    border: 5px solid var(--main-3);
+    padding: 0.5rem;
+}
+
+.bill-day {
+    text-align: right;
+    margin-top: 2rem;
+    font-size: 20px;
+}
+
 @media screen and (max-width: 950px) {}
 
 @media screen and (max-width: 750px) {

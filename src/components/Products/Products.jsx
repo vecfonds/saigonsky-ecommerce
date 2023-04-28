@@ -307,12 +307,12 @@ const Products = () => {
                                     <em>Tất cả</em>
                                 </MenuItem>
                                 <MenuItem value={"Áo sơ mi"}>Áo sơ mi</MenuItem>
+                                <MenuItem value={"Jumpsuit"}>Jumpsuit</MenuItem>
+                                <MenuItem value={"Đầm"}>Đầm</MenuItem>
                                 <MenuItem value={"Quần Dài"}>Quần Dài</MenuItem>
                                 <MenuItem value={"Chân váy"}>Chân váy</MenuItem>
                                 <MenuItem value={"Quần Short"}>Quần Short</MenuItem>
                                 <MenuItem value={"Set bộ"}>Set bộ</MenuItem>
-                                <MenuItem value={"Jumpsuit"}>Jumpsuit</MenuItem>
-                                <MenuItem value={"Đầm"}>Đầm</MenuItem>
                                 <MenuItem value={"Áo Dài"}>Áo Dài</MenuItem>
                                 <MenuItem value={"Quần Jeans"}>Quần Jeans</MenuItem>
 

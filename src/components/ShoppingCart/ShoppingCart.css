@@ -14,6 +14,8 @@
     gap: 2rem;
     /* justify-content: space-evenly; */
     text-align: left;
+    /* border-color: var(--main-3); */
+
 }
 
 .product-cart-shopping-img {
@@ -43,10 +45,7 @@
     font-size: 16px;
 }
 
-.product-cart-shopping-detail {
-    /* flex: 2;
-    margin: auto; */
-}
+.product-cart-shopping-detail {}
 
 .product-cart-shopping-detail>.title {
     margin-bottom: 0.3rem;
@@ -83,3 +82,89 @@
 .total-money-main {
     font-size: 30px;
 }
+
+.product-cart-shopping>.product-cart-shopping-detail>.quantity-cart {
+    justify-content: start;
+}
+
+.footer-card {
+    display: flex;
+    /* justify-content: space-between; */
+    gap: 2rem;
+    align-items: center;
+}
+
+.footer-card>p.price {
+    margin-bottom: 0;
+}
+
+.mobile-shoppingcart {
+    display: none;
+    margin: 0 auto;
+}
+
+.mobile-shoppingcart-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.mobile-shoppingcart-center>.product-cart-shopping {
+    border: 1px solid var(--main-3);
+    padding: 0.5rem;
+    border-radius: 5px;
+    min-width: 600px;
+    background: #fff;
+}
+
+
+@media screen and (max-width: 950px) {
+    #shopping-cart {
+        margin: 6rem 2rem;
+        min-height: calc(100vh - 14rem);
+
+    }
+
+    .mobile-shoppingcart {
+        display: block;
+
+    }
+
+    .destop-shoppingcart {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 650px) {
+
+    #shopping-cart {
+        margin: 6rem 5vw;
+        min-height: calc(100vh - 14rem);
+
+    }
+
+    .mobile-shoppingcart-center>.product-cart-shopping {
+        border: 1px solid var(--main-3);
+        padding: 0.25rem;
+        border-radius: 5px;
+        min-width: 90vw;
+        background: #fff;
+        gap: 0.5rem;
+    }
+
+    .product-cart-shopping-detail h2.title {
+        font-size: 18px;
+    }
+
+    .mobile-shoppingcart-center>.product-cart-shopping>.product-cart-shopping-img {
+        flex: 3.5;
+    }
+
+
+    .mobile-shoppingcart-center>.product-cart-shopping>.product-cart-shopping-detail {
+        flex: 6.5;
+    }
+}
+
+@media screen and (max-width: 600px) {}
