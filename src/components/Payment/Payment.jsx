@@ -329,7 +329,7 @@ const Payment = () => {
 
                                         </div>
                                         <div className='footer-card'>
-                                            <p className="price">{VND.format(product.data.Price * product.quantity)}</p>
+                                            <p className="price">{VND.format(product.data.Price)}</p>
                                         </div>
                                     </div>
                                 </div>

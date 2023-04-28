@@ -164,7 +164,7 @@ const FavoritesList = () => {
                                 />
                                 <Link to={`/sanpham/${product.Id}`} state={{ id: product.Id }} className="product-card-img">
 
-                                    <img src="/assets/images/products/1.jpg" alt="item" />
+                                    <img src={`${product.image.filter(i => i.Main === 1)[0]?.Content}`} alt="item" />
 
 
                                     {/* <Rating

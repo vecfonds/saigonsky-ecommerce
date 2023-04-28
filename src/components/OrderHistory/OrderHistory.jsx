@@ -69,6 +69,16 @@ const OrderHistory = () => {
         dataShoppingCart
     } = useSelector(shoppingCartSelector);
 
+    const priceTotal = () => {
+        var sum = 0;
+
+        for (var i = 0; i < dataShoppingCart?.length; ++i) {
+            sum += dataShoppingCart[i]?.data.Price * dataShoppingCart[i]?.quantity;
+        }
+
+        return sum;
+    }
+
     return (
         <div id='order-history'>
             <div className="headeri">Xin chào {Name}</div>
@@ -119,7 +129,7 @@ const OrderHistory = () => {
 
                                             </div>
                                             <div className='footer-card'>
-                                                <p className="price">{VND.format(product.data.Price * product.quantity)}</p>
+                                                <p className="price">{VND.format(product.data.Price)}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -135,7 +145,7 @@ const OrderHistory = () => {
                         <div className="total-money">
                             <p>
                                 <span className="total-money-title">Tổng tiền</span>
-                                <span className="price total-money-main">{VND.format(3900000)}</span>
+                                <span className="price total-money-main">{VND.format(priceTotal())}</span>
                             </p>
 
 
