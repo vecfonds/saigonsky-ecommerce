@@ -23,7 +23,7 @@ const notifySuccess = (text) => toast.success(text, {
     }
 });
 
-const notifyError = (text) => toast.error(text, {
+const notifyWarning = (text) => toast.warning(text, {
     position: "bottom-left",
     autoClose: 3000,
     hideProgressBar: false,
@@ -130,7 +130,7 @@ const Signup = () => {
                     setTimeout(() => { navigate("/dangnhap"); }, 2000)
                 }
                 else {
-                    notifyError(res.data.message);
+                    notifyWarning(res.data.message);
                 }
             })
             .catch((err) => {
