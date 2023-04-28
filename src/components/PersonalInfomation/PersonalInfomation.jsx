@@ -28,7 +28,7 @@ const validationSchema = z
         //     message: "Must be a valid email",
         // }),
         // phonenumber: z.string(),
-        phonenumber: z.string(),//.transform(data => Number(data))
+        phonenumber: z.string().min(10, { message: "Số điện thoại phải ít nhất 10 chữ số" }),
         // phonenumber: z.number().min(1, { message: "Name is required" }),
 
         address: z.string().min(1, { message: "Name is required" }),
@@ -177,7 +177,7 @@ const PersonalInfomation = () => {
                                 <div className="form-group">
                                     <input
                                         autoComplete="off"
-                                        type="tel"
+                                        type="number"
                                         name="phonenumber"
                                         placeholder=" "
                                         {...register("phonenumber")}
