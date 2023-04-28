@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './OrderHistory.css'
 import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import { userSelector } from '../../store/features/userSlice';
 import axios from 'axios';
 import { shoppingCartSelector } from '../../store/features/shoppingCartSlice';
+import { productsSelector } from '../../store/features/productsSlice';
 
 const VND = new Intl.NumberFormat('vi-VN', {
     style: 'currency',
@@ -29,39 +30,44 @@ const OrderHistory = () => {
         return isActive ? "list-group-item activated" : "list-group-item";
     };
 
+    const [dataOrderHistory, setDataOrderHistory] = useState();
+
     useEffect(() => {
-
-        console.log("ccid", Id)
-        axios
-            .get(
-                "http://localhost/LTW_BE-dev/Controllers/GetBill.php",
-                {
-                    customerID: Id
-                },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
+        async function fetchData() {
+            await axios
+                .post(
+                    "http://localhost/LTW_BE-dev/Controllers/GetBill.php",
+                    {
+                        customerID: Id
                     },
-                }
-            )
-            .then((res) => {
-                // res.data = JSON.parse(res.data);
-                console.log("GetBill.php", res.data);
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                )
+                .then((res) => {
+                    // res.data = JSON.parse(res.data);
+                    console.log("GetBill.php", res.data);
+                    // const result = JSON.parse(res.data);
+                    // console.log(result);
+                    // setMessage(res.data.message);
+                    if (res.data.isSuccess === true) {
+                        setDataOrderHistory(res.data.data);
+                        // console.log("ok", res.data.isSuccess);
+                        // navigate("/dangnhap");
+                        console.log("res.data.", res.data.data);
+                        // dispatch(loadDataProducts(res.data.data));
 
-                // const result = JSON.parse(res.data);
-                // console.log(result);
-                // setMessage(res.data.message);
-                if (res.data.isSuccess === true) {
-                    // console.log("ok", res.data.isSuccess);
-                    // navigate("/dangnhap");
-                    console.log("res.data.", res.data.data);
-                    // dispatch(loadDataProducts(res.data.data));
+                    }
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                });
+        }
 
-                }
-            })
-            .catch((err) => {
-                console.log("err", err);
-            });
+        fetchData();
+
 
     }, [Id])
 
@@ -78,6 +84,13 @@ const OrderHistory = () => {
 
         return sum;
     }
+
+
+    const {
+        data
+    } = useSelector(productsSelector);
+
+    console.log("dataOrderHistory", dataOrderHistory)
 
     return (
         <div id='order-history'>
@@ -102,7 +115,81 @@ const OrderHistory = () => {
                     </div>
                 </div>
                 <div className="personal-information-right">
-                    <div className="bill">
+
+                    {dataOrderHistory?.map(bill =>
+                        <div className="bill">
+                            <div className='mobile-shoppingcart'>
+                                <div className='mobile-shoppingcart-center'>
+                                    {bill.details?.map((product) => (
+                                        <div className='product-cart-shopping'>
+                                            <div className="product-cart-shopping-img">
+                                                {/* <img src={`${data.filter(item => item.Name === product.Name)[0].image.filter(i => i.Main === 1)[0]?.Content}`} alt="" /> */}
+                                                <img src={`${product.Image}`} alt="" />
+
+                                            </div>
+                                            <div className="product-cart-shopping-detail">
+                                                <h2 className="title">{product.Name}</h2>
+                                                <div className='subtitle'>
+                                                    <p className="brand-name"><strong>Thương hiệu:</strong> {product.Album}</p>
+                                                    {/* <p className="product-code"><strong>Mã SP:  </strong> {product.data.Id}</p> */}
+
+                                                    <p><strong>Phiên bản:</strong> {product.Size} / {product.Color}</p>
+                                                </div>
+
+                                                <div className="quantity-cart">
+                                                    <div className="quantity-input">
+
+
+                                                        <input className="quantity-input" type="text" value={product.Count} readOnly />
+
+                                                    </div>
+
+                                                </div>
+                                                <div className='footer-card'>
+                                                    <p className="price">{VND.format(product.Price_item)}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="bill-day">
+                                <strong>Ngày đặt hàng:</strong> {bill.Time}
+                            </div>
+
+                            <div className="method">
+                                <strong>Phương thức thanh toán:</strong> {bill.Pay_method}
+                            </div>
+
+                            <div className="address-order">
+                                <strong>Địa chỉ giao hàng:</strong> {bill.Note}
+
+                            </div>
+
+                            <div className="total-money">
+                                <p>
+                                    <span className="total-money-title"><strong>Tổng tiền</strong></span>
+                                    <span className="price total-money-main">{VND.format(bill.Total)}</span>
+                                </p>
+
+
+                            </div>
+                        </div>
+                    )}
+
+
+
+
+
+
+
+
+
+
+
+
+                    {/* <div className="bill">
                         <div className='mobile-shoppingcart'>
                             <div className='mobile-shoppingcart-center'>
                                 {dataShoppingCart.map((product) => (
@@ -114,7 +201,6 @@ const OrderHistory = () => {
                                             <h2 className="title">{product.data.Name}</h2>
                                             <div className='subtitle'>
                                                 <p className="brand-name"><strong>Thương hiệu:</strong> {product.data.Album}</p>
-                                                {/* <p className="product-code"><strong>Mã SP:  </strong> {product.data.Id}</p> */}
 
                                                 <p><strong>Phiên bản:</strong> {product.size} / {product.color}</p>
                                             </div>
@@ -148,10 +234,20 @@ const OrderHistory = () => {
                                 <span className="price total-money-main">{VND.format(priceTotal())}</span>
                             </p>
 
-
                         </div>
-                    </div>
+                    </div> */}
+
+
+
+
+
+
                 </div>
+
+
+
+
+
             </div>
         </div>
     )

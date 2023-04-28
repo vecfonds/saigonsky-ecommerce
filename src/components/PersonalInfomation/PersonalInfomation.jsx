@@ -7,6 +7,19 @@ import { z } from "zod";
 import { useDispatch, useSelector } from 'react-redux';
 import { editDataUser, userSelector } from '../../store/features/userSlice';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const notify = (text) => toast.success(text, {
+    position: "bottom-left",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+});
 
 const validationSchema = z
     .object({
@@ -93,6 +106,7 @@ const PersonalInfomation = () => {
                     console.log("dispatch");
                     dispatch(editDataUser(data));
                     // navigate("/sanpham");
+                    notify("Cập nhật thông tin thành công!");
                 }
             })
             .catch((err) => {
@@ -112,6 +126,8 @@ const PersonalInfomation = () => {
                 <h1>Xin chào</h1>
                 <h1>Tiến Dũng</h1>
             </div> */}
+            <ToastContainer />
+
 
             <div className="headeri">Xin chào {Name}</div>
             <div className="personal-information">

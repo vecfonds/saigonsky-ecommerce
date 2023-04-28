@@ -15,13 +15,32 @@
 
 
 .bill {
-    border: 5px solid var(--main-3);
+    border: 3px solid var(--main-3);
     padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.address-order,
+.method,
+.bill-day {
+    margin-top: 0.5rem;
+    font-size: 18px;
 }
 
 .bill-day {
-    text-align: right;
     margin-top: 2rem;
+}
+
+#order-history .total-money {
+    align-items: start;
+    margin-top: 0.5rem;
+}
+
+#order-history .total-money .total-money-title {
+    font-size: 18px;
+}
+
+#order-history .total-money span.price.total-money-main {
     font-size: 20px;
 }
 
@@ -40,4 +59,23 @@
         margin: 6rem 1.5rem 4rem;
     }
 
+    .bill {
+        border: 3px solid var(--main-3);
+        padding: 0.5rem;
+    }
+
+    .address-order,
+    .method,
+    .bill-day {
+        margin-top: 0.5rem;
+        font-size: 16px;
+    }
+
+    #order-history .total-money .total-money-title {
+        font-size: 16px;
+    }
+
+    #order-history .total-money span.price.total-money-main {
+        font-size: 20px;
+    }
 }

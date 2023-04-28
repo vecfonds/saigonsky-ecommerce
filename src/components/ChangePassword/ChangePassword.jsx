@@ -8,6 +8,32 @@ import { editDataUser, userSelector } from '../../store/features/userSlice';
 import axios from 'axios';
 import './ChangePassword.css'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const notifySuccess = (text) => toast.success(text, {
+    position: "bottom-left",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+});
+
+const notifyError = (text) => toast.error(text, {
+    position: "bottom-left",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+});
+
+
 const validationSchema = z
     .object({
         oldPassword: z
@@ -107,6 +133,10 @@ const ChangePassword = () => {
                 if (res.data.isSuccess === true) {
                     console.log("ok", res.data.isSuccess);
                     // navigate("/dangnhap");
+                    notifySuccess(res.data.message);
+                }
+                else {
+                    notifyError(res.data.message);
                 }
             })
             .catch((err) => {
@@ -208,6 +238,8 @@ const ChangePassword = () => {
                 <h1>Xin chào</h1>
                 <h1>Tiến Dũng</h1>
             </div> */}
+            <ToastContainer />
+
 
             <div className="headeri">Xin chào {Name}</div>
             <div className="personal-information">
@@ -244,7 +276,7 @@ const ChangePassword = () => {
 
                                             {...register("oldPassword")}
                                         />
-                                        <label>Mật khẩu</label>
+                                        <label>Mật khẩu cũ</label>
                                         <div className="eye" onClick={() => setHiddenOldPwd(!hiddenOldPwd)}>
                                             <i className={hiddenOldPwd ? "fa fa-eye" : "fa fa-eye-slash"}></i>
                                         </div>
@@ -279,7 +311,7 @@ const ChangePassword = () => {
 
                                             {...register("password")}
                                         />
-                                        <label>Mật khẩu</label>
+                                        <label>Mật khẩu mới</label>
                                         <div className="eye" onClick={() => setHiddenPwd(!hiddenPwd)}>
                                             <i className={hiddenPwd ? "fa fa-eye" : "fa fa-eye-slash"}></i>
                                         </div>
@@ -339,10 +371,10 @@ const ChangePassword = () => {
                             </div>
 
 
-                            {message &&
+                            {/* {message &&
                                 <p className="textDanger" style={{ textAlign: "center" }}>
                                     {message}
-                                </p>}
+                                </p>} */}
 
 
 

@@ -6,7 +6,36 @@ import { z } from "zod";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+const notifySuccess = (text) => toast.success(text, {
+    position: "bottom-left",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    style: {
+        fontSize: "16px"
+    }
+});
+
+const notifyError = (text) => toast.error(text, {
+    position: "bottom-left",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    style: {
+        fontSize: "16px"
+    }
+});
 
 const validationSchema = z
     .object({
@@ -95,7 +124,13 @@ const Signup = () => {
                 // setMessage(res.data.message);
                 if (res.data.isSuccess === true) {
                     // console.log("ok", res.data.isSuccess);
-                    navigate("/dangnhap");
+
+                    notifySuccess(res.data.message);
+                    // navigate("/dangnhap");
+                    setTimeout(() => { navigate("/dangnhap"); }, 2000)
+                }
+                else {
+                    notifyError(res.data.message);
                 }
             })
             .catch((err) => {
@@ -121,7 +156,9 @@ const Signup = () => {
 
     return (
         <div className="login-container">
+
             <div className="backgr">
+                <ToastContainer />
                 <div className="container">
                     <div className="container_left active-left">
                         <div className="image1"></div>

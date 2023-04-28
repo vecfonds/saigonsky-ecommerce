@@ -14,7 +14,7 @@ import { userSelector } from '../../store/features/userSlice';
 import { FormControl, MenuItem, Select } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { deleteShoppingCart, setQuantityProduct, shoppingCartSelector } from '../../store/features/shoppingCartSlice';
+import { clearDataShoppingCart, deleteShoppingCart, setQuantityProduct, shoppingCartSelector } from '../../store/features/shoppingCartSlice';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -24,7 +24,19 @@ const VND = new Intl.NumberFormat('vi-VN', {
     currency: 'VND',
 });
 
-const notify = (text) => toast.success(text, {
+
+const notifySuccess = (text) => toast.success(text, {
+    position: "bottom-left",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+});
+
+const notifyError = (text) => toast.error(text, {
     position: "bottom-left",
     autoClose: 3000,
     hideProgressBar: false,
@@ -152,9 +164,14 @@ const Payment = () => {
                 setMessage(res.data.message);
                 if (res.data.isSuccess === true) {
                     console.log("dispatch");
+                    dispatch(clearDataShoppingCart());
+                    notifySuccess(res.data.message);
                     // dispatch(editDataUser(data));
                     // navigate("/sanpham");
 
+                }
+                else {
+                    notifyError(res.data.message);
                 }
             })
             .catch((err) => {
@@ -284,10 +301,10 @@ const Payment = () => {
                         </div>
 
 
-                        {message &&
+                        {/* {message &&
                             <p className="textDanger" style={{ textAlign: "center" }}>
                                 {message}
-                            </p>}
+                            </p>} */}
 
 
 

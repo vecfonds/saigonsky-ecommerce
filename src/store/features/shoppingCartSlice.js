@@ -17,7 +17,7 @@ export const shoppingCartSlice = createSlice({
       state.isUploadSuccess = false;
       return state;
     },
-    clearData: (state) => {
+    clearDataShoppingCart: (state) => {
       state = { ...initialState };
       return state;
     },
@@ -74,7 +74,7 @@ export const shoppingCartSlice = createSlice({
 
 export const {
   clearState,
-  clearData,
+  clearDataShoppingCart,
   addShoppingCart,
   deleteShoppingCart,
   setQuantityProduct,
