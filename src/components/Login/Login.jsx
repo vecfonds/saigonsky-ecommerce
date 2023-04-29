@@ -50,7 +50,7 @@ function Login() {
         }
       )
       .then((res) => {
-        // console.log("ffsdff", res.data);
+        console.log("ffsdff", res.data);
         setMessage(res.data.message);
         if (res.data.isSuccess === true) {
           dispatch(loadDataUser(res.data));

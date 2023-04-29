@@ -30,6 +30,7 @@ export const userSlice = createSlice({
       return state;
     },
     loadDataUser: (state, action) => {
+      // console.log("action.payload", action.payload);
       state = { ...action.payload.data };
       //   console.log("state", state);
       return state;

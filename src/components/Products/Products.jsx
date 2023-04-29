@@ -65,7 +65,8 @@ const Products = () => {
                 // console.log("ffsdff", res.data);
                 if (res.data.isSuccess === true) {
 
-                    // console.log("res.data.", res.data.data);
+                    console.log("res.data.", res.data.data);
+                    localStorage.clear();
                     dispatch(loadDataProducts(res.data.data));
 
                 }
